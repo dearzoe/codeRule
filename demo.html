@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<div class="easyui-panel" title="编码规则" style="width:500px;height:220px;padding:10px;">
+    <form id="ruleForm" action="">
+        <div style="padding:5px;">
+            <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
+            <input class="easyui-validatebox" type="text" name="ruleName">
+        </div>
+        <div style="padding:5px;">
+            <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;是否为主编码：</label>
+            <input class="easyui-validatebox" type="checkbox" name="mainCode">
+        </div>
+        <div style="padding:5px;">
+            <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;生成方式：</label>
+            <select id="cc" class="easyui-combobox" name="buildAction" style="width:200px;">
+                <option>自动</option>
+                <option>手动</option>
+            </select>
+        </div>
+        <div style="padding:5px;">
+            <label for="bornPublish" style="width:110px;display:inline-block">是否在发布时生成：</label>
+            <input class="easyui-validatebox" type="checkbox" name="bornPublish">
+        </div>
+        <div style="padding:5px;">
+            <label for="example" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;编码样例：</label>
+            <input class="easyui-validatebox" type="text">
+        </div>
+    </form>
+   <!-- <table id="codeParagraph" style="width:400px;height:100px;"></table>-->
+</div>
+<body>
+<script>
+    $("#codeParagraph").datagrid({
+        onClickRow:true,
+        onClickRow: function (rowIndex, rowData) {
+            $(this).datagrid('unselectRow', rowIndex);
+        },
+        fitColumns:true,
+        align:'center',
+        disabled:true,
+    })
+</script>
+</body>
+</html>
+
+
+
