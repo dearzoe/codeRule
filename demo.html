@@ -8,11 +8,11 @@
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
 </head>
-<div class="easyui-panel" title="编码规则" style="width:500px;height:220px;padding:10px;">
+<div class="easyui-panel" title="编码规则" style="width:510px;padding:10px;">
     <form id="ruleForm" action="">
         <div style="padding:5px;">
             <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
-            <input class="easyui-validatebox" type="text" name="ruleName">
+            <input class="easyui-validatebox" type="text" name="ruleName" style="width:180px">
         </div>
         <div style="padding:5px;">
             <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;是否为主编码：</label>
@@ -20,7 +20,7 @@
         </div>
         <div style="padding:5px;">
             <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;生成方式：</label>
-            <select id="cc" class="easyui-combobox" name="buildAction" style="width:200px;">
+            <select id="cc" class="easyui-combobox" name="buildAction" style="width:185px;">
                 <option>自动</option>
                 <option>手动</option>
             </select>
@@ -31,22 +31,80 @@
         </div>
         <div style="padding:5px;">
             <label for="example" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;编码样例：</label>
-            <input class="easyui-validatebox" type="text">
+            <input class="easyui-validatebox" type="text" style="width:180px">
         </div>
     </form>
-   <!-- <table id="codeParagraph" style="width:400px;height:100px;"></table>-->
+    <a href="#" class="easyui-linkbutton" id="eaf_add_code" iconCls="icon-add" plain="true" onclick="add()">添加</a>
+    <a href="#" class="easyui-linkbutton" id="eaf_remove_code" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
+    <table id="codeParagraph" style="width:488px;height:120px;"></table>
 </div>
 <body>
 <script>
+    var products = [
+        {EAF_TYPE:'固定字符串',name:'固定字符串'},
+        {EAF_TYPE:'流水',name:'流水'},
+        {EAF_TYPE:'引用属性',name:'引用属性'}
+    ];
+    var datagridcolumn =[[
+        {field:'EAF_NAME',title:'名称',width:105,align:'center',editor:{type:'text'}},
+            {field:'EAF_TYPE',title:'类型',width:105,align:'center',editor:{
+                type:'combobox',
+                options:{
+                    valueField:'EAF_TYPE',
+                    textField:'name',
+                    data:products,
+                    required:true,
+                    panelHeight:62
+                }
+            }},
+        {field:'EAF_SORT',title:'排序',width:105,align:'center',editor:{type:'text'}},
+        {field:'EAF_CONTENT',title:'内容',width:105,align:'center',editor:{type:''}}
+        ]];
+    var datadgdata=[
+        {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:"4"},
+        {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"007",EAF_CONTENT:"5"},
+        {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:"6"}
+        ]
     $("#codeParagraph").datagrid({
+        //设置选中没有背景颜色
         onClickRow:true,
         onClickRow: function (rowIndex, rowData) {
             $(this).datagrid('unselectRow', rowIndex);
+            //console.log(lastIndex+"lastIndex")
+            //console.log(rowIndex+"rowIndex")
+            if (lastIndex != rowIndex){
+                $('#codeParagraph').datagrid('endEdit', lastIndex);
+                $('#codeParagraph').datagrid('beginEdit', rowIndex);
+            }
+            lastIndex = rowIndex;
         },
         fitColumns:true,
         align:'center',
         disabled:true,
-    })
+        columns:datagridcolumn,
+        data:datadgdata});
+    var lastIndex;
+    function add(){
+        //console.log(lastIndex+"last add")
+        $('#codeParagraph').datagrid('endEdit', lastIndex);
+        $('#codeParagraph').datagrid('appendRow',{
+            EAF_NAME:'',
+            EAF_TYPE:'',
+            EAF_SORT:'',
+            EAF_CONTENT:''
+        });
+        lastIndex = $('#codeParagraph').datagrid('getRows').length-1;
+        //  console.log(lastIndex+"last add ----")
+        $('#codeParagraph').datagrid('selectRow', lastIndex);
+        $('#codeParagraph').datagrid('beginEdit', lastIndex);
+    }
+    function remove(){
+        var row = $('#codeParagraph').datagrid('getSelected');
+        index = $('#codeParagraph').datagrid('getRowIndex', row);
+        console.log(row+"row")
+        console.log(index+"index")
+        $('#codeParagraph').datagrid('deleteRow',index);
+    }
 </script>
 </body>
 </html>
