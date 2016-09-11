@@ -20,7 +20,7 @@
         </div>
         <div style="padding:5px;">
             <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;生成方式：</label>
-            <select id="cc" class="easyui-combobox" name="buildAction" style="width:185px;">
+            <select id="cc" class="easyui-combobox" name="buildAction" style="width:185px;" data-options="panelHeight:42">
                 <option>自动</option>
                 <option>手动</option>
             </select>
@@ -34,18 +34,107 @@
             <input class="easyui-validatebox" type="text" style="width:180px">
         </div>
     </form>
-    <a href="#" class="easyui-linkbutton" id="eaf_add_code" iconCls="icon-add" plain="true" onclick="add()">添加</a>
-    <a href="#" class="easyui-linkbutton" id="eaf_remove_code" iconCls="icon-remove" plain="true" onclick="remove()">删除</a>
-    <table id="codeParagraph" style="width:487px;height:120px;"></table>
+    <!--上面是input checkbox|| 下面是datadgrid-->
+    <table id="tt" style="width:482px;height:auto"
+           data-options="singleSelect:true,idField:'itemid'">
+        <thead>
+        <tr>
+            <th data-options="field:'EAF_NAME',width:120,editor:'text',align:'center'">名称</th>
+            <th data-options="field:'EAF_TYPE',width:120,align:'center',formatter:productFormatter,
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'productid',
+								textField:'name',
+								data:products,
+								required:true,
+								panelHeight:62
+							}
+						}">类型</th>
+            <th data-options="field:'EAF_SORT',width:120,align:'center',editor:{type:'numberbox',options:{required:true}}">排序</th>
+            <th data-options="field:'EAF_CONTENT',width:120,align:'center',editor:'numberbox',formatter:context">内容</th>
+        </tr>
+        </thead>
+    </table>
 </div>
 <body>
 <script>
+    var datadgdata=[
+        {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:"4"},
+        {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:"5"},
+        {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:"6"}
+    ]
     var products = [
+        {productid:'0',name:'固定字符串'},
+        {productid:'1',name:'流水'},
+        {productid:'2',name:'引用属性'}
+    ];
+    function productFormatter(value){
+        for(var i=0; i<products.length; i++){
+            if (products[i].productid == value) return products[i].name;
+        }
+        return value;
+    }
+    function context(value, row, index) {
+        console.log(value);
+        console.log(row);
+        console.log(index);
+    }
+    $(function(){
+        var lastIndex;
+        $('#tt').datagrid({
+            toolbar:[{
+                text:'添加',
+                iconCls:'icon-add',
+                handler:function(){
+                    $('#tt').datagrid('endEdit', lastIndex);
+                    $('#tt').datagrid('appendRow',{
+                        EAF_NAME:'',
+                        EAF_TYPE:'',
+                        EAF_SORT:'',
+                        EAF_CONTENT:''
+                    });
+                    lastIndex = $('#tt').datagrid('getRows').length-1;
+                    $('#tt').datagrid('selectRow', lastIndex);
+                    $('#tt').datagrid('beginEdit', lastIndex);
+                }
+            },'-',{
+                text:'删除',
+                iconCls:'icon-remove',
+                handler:function(){
+                    var row = $('#tt').datagrid('getSelected');
+                    if (row){
+                        var index = $('#tt').datagrid('getRowIndex', row);
+                        $('#tt').datagrid('deleteRow', index);
+                    }
+                }
+            },'-',{
+                text:'保存',
+                iconCls:'icon-save',
+                handler:function(){
+                    $('#tt').datagrid('acceptChanges');
+                }
+            }],
+            onBeforeLoad:function(){
+                $(this).datagrid('rejectChanges');
+            },
+            onClickRow:function(rowIndex){
+                if (lastIndex != rowIndex){
+                    $('#tt').datagrid('endEdit', lastIndex);
+                    $('#tt').datagrid('beginEdit', rowIndex);
+                }
+                lastIndex = rowIndex;
+            },
+            data:datadgdata
+
+        });
+    });
+    /*var products = [
         {EAF_TYPE:'固定字符串',name:'固定字符串'},
         {EAF_TYPE:'流水',name:'流水'},
         {EAF_TYPE:'引用属性',name:'引用属性'}
-    ];
-    var datagridcolumn =[[
+    ];*/
+    /*var datagridcolumn =[[
         {field:'EAF_NAME',title:'名称',width:105,align:'center',editor:{type:'text'}},
             {field:'EAF_TYPE',title:'类型',width:105,align:'center',editor:{
                 type:'combobox',
@@ -59,13 +148,13 @@
             }},
         {field:'EAF_SORT',title:'排序',width:105,align:'center',editor:{type:'numberbox'}},
         {field:'EAF_CONTENT',title:'内容',width:105,align:'center',editor:{type:''}}
-        ]];
-    var datadgdata=[
+        ]];*/
+    /*var datadgdata=[
         {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:"4"},
         {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"007",EAF_CONTENT:"5"},
         {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:"6"}
-        ]
-    $("#codeParagraph").datagrid({
+        ]*/
+   /* $("#codeParagraph").datagrid({
         //设置选中没有背景颜色
         onClickRow:true,
         onClickRow: function (rowIndex, rowData) {
@@ -82,8 +171,8 @@
         align:'center',
         disabled:true,
         columns:datagridcolumn,
-        data:datadgdata});
-    var lastIndex;
+        data:datadgdata});*/
+   /* var lastIndex;
     function add(){
         //console.log(lastIndex+"last add")
         $('#codeParagraph').datagrid('endEdit', lastIndex);
@@ -104,7 +193,7 @@
         console.log(row+"row")
         console.log(index+"index")
         $('#codeParagraph').datagrid('deleteRow',index);
-    }
+    }*/
 </script>
 </body>
 </html>

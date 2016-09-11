@@ -32,7 +32,6 @@
     </thead>
 </table>
 <div id="dd" style="width:300px;height:200px;">
-
 </div>
 <script>
     var datadgdata=[
@@ -52,14 +51,19 @@
         return value;
     }
     function context(value, row, index){
-        if(row.EAF_TYPE == "流水" || row.EAF_TYPE == "1"){
+        console.log(value);
+        console.log(row);
+        console.log(index);
+      /*  if(row.EAF_TYPE == "固定字符串" || row.EAF_TYPE == "0"){
+            alert("固定字符串");
         }
-        return "<input onclick=\"popUp()\" type=\"checkbox\">";
+        if(row.EAF_TYPE == "流水" || row.EAF_TYPE == "1"){
+            alert("流水");
+        }
+        if(row.EAF_TYPE == "引用属性" || row.EAF_TYPE == "2"){
+            alert("引用属性");
+        }*/
     }
-    function popUp(){
-        $("#dd").css("display","block")
-    }
-
     $(function(){
         var lastIndex;
         $('#tt').datagrid({
