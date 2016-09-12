@@ -8,7 +8,7 @@
     <script type="text/javascript" src="jquery.min.js"></script>
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
 </head>
-<div class="easyui-panel" title="编码规则" style="width:510px;padding:10px;">
+<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:510px;padding:10px;">
     <form id="ruleForm" action="">
         <div style="padding:5px;">
             <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
@@ -48,11 +48,12 @@
 								textField:'name',
 								data:products,
 								required:true,
+								onSelect:context2,
 								panelHeight:62
 							}
 						}">类型</th>
             <th data-options="field:'EAF_SORT',width:120,align:'center',editor:{type:'numberbox',options:{required:true}}">排序</th>
-            <th data-options="field:'EAF_CONTENT',width:120,align:'center',formatter:context">内容</th>
+            <th data-options="field:'EAF_CONTENT',width:120,align:'center',formatter2:context,editor:{type:'text'}">内容</th>
         </tr>
         </thead>
     </table>
@@ -73,6 +74,23 @@
 </div>
 <body>
 <script>
+    $("#eaf_code").dialog({
+        buttons:[{
+            text:"确定",
+            plain:true,
+            iconCls:"icon-ok",
+            handler:function(){
+                alert("我点击了固定字符串的OK键！")
+            }
+        },{
+            text:"取消",
+            plain:true,
+            iconCls:"icon-cancel",
+            handler:function(){
+                alert("我点击了固定字符串的cancel键！")
+            }
+        }]
+    })
     var datadgdata=[
         {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:{}},
         {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:{}},
@@ -89,10 +107,83 @@
         }
         return value;
     }
+    function context2(p){
+        var selrow = $('#ruleGrid').datagrid('getSelected');
+        var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
+        var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
+
+        //$(ed.target).datebox('setValue', '5/4/2012');
+
+        //$('#ruleGrid').datagrid('endEdit', 1);
+        //$('#ruleGrid').datagrid("refreshRow",1);
+        $.parser.parse();
+        console.log(p)
+       if(p.productid == 0){
+            var aa = '<input type="text" style="text-align:center;width:108px">';
+           $(ed.target).textbox({
+               buttonText:'Search',
+               iconCls:'icon-man',
+               iconAlign:'left'
+           })
+
+       }else if(p.productid == 1){
+            //var bb = '<a href="#" onclick="editRow('+rowIndex+')">编辑</a>';
+       }else if(p.productid == 2){
+            var cc = '<input type="text" class="easyui-combobox">';
+           $(ed.target).combobox({
+               url:'combobox_data.json',
+               valueField:'id',
+               textField:'text'
+           });
+       }
+    }
     function context(value,rowData,rowIndex){
-        return '<a href="#" onclick="editRow('+rowIndex+')">编辑</a>';
+        if(rowData.EAF_TYPE=="固定字符串" || rowData.EAF_TYPE==0){
+            return '<input type="text" style="text-align:center;width:108px">';
+        }
+        if(rowData.EAF_TYPE=="流水" || rowData.EAF_TYPE==1){
+            return '<a href="#" onclick="editRow('+rowIndex+')">编辑</a>';
+        }
+        if(rowData.EAF_TYPE=="引用属性" || rowData.EAF_TYPE==2){
+            var cc = '<input type="text" class="easyui-combobox"  style="text-align:center;width:108px">'
+            console.log(value)
+            console.log(rowData)
+            console.log(rowIndex)
+            return cc;
+        }
     }
     function editRow(index){
+        $("#dg1").dialog({
+            title:"流水",
+            width:300,
+            height:200,
+            buttons:[
+                {
+                    text:"重置",
+                    plain:true,
+                    iconCls:"icon-reload",
+                    handler:function(){
+                        alert("我点击了流水的reset键！")
+                    }
+                },
+                {
+                    text:"确定",
+                    plain:true,
+                    iconCls:"icon-ok",
+                    handler:function(){
+                        alert("我点击了流水的OK键！")
+                    }
+                },{
+                    text:"取消",
+                    plain:true,
+                    iconCls:"icon-cancel",
+                    handler:function(){
+                        alert("我点击了流水的cancel键！")
+                    }
+                }]
+        })
+    }
+    /*
         $('#ruleGrid').datagrid('selectRow',index);// 关键在这里
         var row = $('#ruleGrid').datagrid('getSelected');
         console.log(row);
@@ -169,7 +260,7 @@
                 }]
             })
         }
-    }
+    }*/
     $(function(){
         var lastIndex;
         $('#ruleGrid').datagrid({
@@ -218,6 +309,7 @@
             data:datadgdata
 
         });
+        $.parser.parse();
     });
 </script>
 </body>
