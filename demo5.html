@@ -79,7 +79,7 @@
                 }
 
             },},
-            {field:'EAF_CONTENT',title:'内容',width:118,align:'center',formatter:context,editor:'text',}
+            {field:'EAF_CONTENT',title:'内容',width:118,align:'center',editor:{type:'text'}}
             ]];
     function productFormatter(value){
         for(var i=0; i<products.length; i++){
@@ -94,6 +94,7 @@
         $.parser.parse();
         if(p.productid == 0){
             $(ed.target).textbox({
+                buttonText:'',
                 textField:'text'
             })
         }else if(p.productid == 1){
@@ -110,16 +111,9 @@
         }
         $.parser.parse();
     }
-    function context(b){
-       /* for(var i=0;i<datadgdata.length;i++){
-            console.log(i)*/
-        debugger;//1
-        var ed = $('#ruleGrid').datagrid('getEditor', {index:0,field:'EAF_CONTENT'});
-            console.log(b);
-            console.log(ed)
-       // }
-
-    }
+    /*function context(b){  //formatter:context,放在第四列
+        var ed = $('#ruleGrid').datagrid('getEditor',{index:0,field:'EAF_CONTENT'});
+    }*/
     function editClick(selrowindex){
         $("#dg1").dialog({
             title:"流水",
