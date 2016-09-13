@@ -9,7 +9,7 @@
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
 </head>
 <body>
-<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:525px;padding:10px;">
+<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:525px;padding:10px;height:600px">
     <form id="ruleForm" action="">
         <div style="padding:5px;">
             <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
@@ -57,10 +57,10 @@
         {productid:'2',name:'引用属性'}
     ];
     //表格数据
-    var datadgdata=[
-        {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:{}},
-        {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:{}},
-        {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:{}}
+    var dataDgData=[
+            {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:{}},
+            {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:{}},
+            {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:{}}
     ];
     //表格样式
     var dataGridColumn=[[
@@ -88,14 +88,14 @@
         return value;
     }
     function seleCom(p){
+        debugger;//1
         var selrow = $('#ruleGrid').datagrid('getSelected');
         var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
         var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
         $.parser.parse();
         if(p.productid == 0){
             $(ed.target).textbox({
-                buttonText:'',
-                textField:'text'
+                buttonText:""
             })
         }else if(p.productid == 1){
             $(ed.target).textbox({
@@ -104,7 +104,6 @@
             })
         }else if(p.productid == 2){
             $(ed.target).combobox({
-                url:'',
                 valueField:'id',
                 textField:'text'
             });
@@ -193,7 +192,7 @@
             //表格样式
             columns:dataGridColumn,
             //表格数据
-            data:datadgdata
+            data:dataDgData
 
         });
         $.parser.parse();
