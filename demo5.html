@@ -88,19 +88,21 @@
         return value;
     }
     function seleCom(p){
-        debugger;//1
         var selrow = $('#ruleGrid').datagrid('getSelected');
         var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
         var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
+        console.log($(ed.target).parent().parent().parent().parent().parent().parent().parent().find("a").parent().parent().parent())
         $.parser.parse();
-        if(p.productid == 0){
-            $(ed.target).textbox({
-                buttonText:""
+        if(p.productid == 0){//.siblings().child("span").find("a")
+            $(ed.target).searchbox({
             })
         }else if(p.productid == 1){
             $(ed.target).textbox({
-                buttonText:'编辑',
-                onClickButton:editClick
+                icons:[{
+                    iconCls:'icon-edit',
+                    handler: editClick
+                }],
+                iconWidth:100
             })
         }else if(p.productid == 2){
             $(ed.target).combobox({
@@ -193,7 +195,6 @@
             columns:dataGridColumn,
             //表格数据
             data:dataDgData
-
         });
         $.parser.parse();
     });

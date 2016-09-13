@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<body>
+<div id="box"></div>
+<script>
+  $("#box").textbox({
+      width:100,
+      icons:[{
+          iconCls:'icon-add',
+          handler: function(e){
+              alert(1)
+          }
+
+      }],
+      iconWidth:100
+
+  })
+</script>
+</body>
+</html>
