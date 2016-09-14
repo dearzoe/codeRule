@@ -9,7 +9,7 @@
     <script type="text/javascript" src="jquery.easyui.min.js"></script>
 </head>
 <body>
-<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:525px;padding:10px;height:600px">
+<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:525px;padding:10px;">
     <form id="ruleForm" action="">
         <div style="padding:5px;">
             <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
@@ -58,9 +58,9 @@
     ];
     //表格数据
     var dataDgData=[
-            {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:{}},
-            {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:{}},
-            {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:{}}
+            {EAF_NAME:'编码1',EAF_TYPE:"固定字符串",EAF_SORT:"1",EAF_CONTENT:""},
+            {EAF_NAME:'编码2',EAF_TYPE:"流水",EAF_SORT:"7",EAF_CONTENT:""},
+            {EAF_NAME:'编码3',EAF_TYPE:"引用属性",EAF_SORT:"3",EAF_CONTENT:""}
     ];
     //表格样式
     var dataGridColumn=[[
@@ -91,7 +91,7 @@
         var selrow = $('#ruleGrid').datagrid('getSelected');
         var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
         var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
-        console.log($(ed.target).parent().parent().parent().parent().parent().parent().parent().find("a").parent().parent().parent())
+        //$(ed.target).parent().parent().parent().parent().parent().parent().parent().find("a").css("display","none")
         $.parser.parse();
         if(p.productid == 0){//.siblings().child("span").find("a")
             $(ed.target).searchbox({
@@ -102,7 +102,7 @@
                     iconCls:'icon-edit',
                     handler: editClick
                 }],
-                iconWidth:100
+                iconWidth:105
             })
         }else if(p.productid == 2){
             $(ed.target).combobox({
