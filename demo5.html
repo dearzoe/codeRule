@@ -85,7 +85,6 @@
                 options:{
                     required:true
                 }
-
             },},
             {field:'EAF_CONTENT',title:'内容',width:118,align:'center',formatter:productsAttrFormatter,editor:{type:'text'}}
             ]];
@@ -95,11 +94,14 @@
         }
         return value;
     }
-    function productsAttrFormatter(value){
-        for(var i=0; i<productsAttr.length; i++){
-            if (productsAttr[i].id == value) return productsAttr[i].text;
+    function productsAttrFormatter(value,row,index){
+        if(row.EAF_TYPE==2) {
+            if (selcombodata[row.EAF_ID])value=selcombodata[row.EAF_ID];
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value) return productsAttr[i].text;
+            }
         }
-        return value.text;
+        return value;
     }
     function seleCom(p){
         var selrow = $('#ruleGrid').datagrid('getSelected');
@@ -144,19 +146,24 @@
                     return value.text;
                 },*/
                 onSelect: function(rec){
-                    $('#ruleGrid').datagrid('updateRow',{
-                        index: selrowindex,
-                        row: {
-                            EAF_CONTENT: rec.id
-                        }
-                    });
+                    selcombodata[selrow.EAF_ID]=rec.id;
+                    try {
+                        /*$('#ruleGrid').datagrid('updateRow', {
+                            index: selrowindex,
+                            row: {
+                                EAF_CONTENT: rec.id
+                            }
+                        });*/
+                    }catch(e){}
                 },
                 panelHeight:0
             });
-            //$(ed.target).combobox('select',selrow.EAF_CONTENT);
+            //注意这里 EAF_CONTENT 的值就是selcombodata[selrow.EAF_ID] 的值  取值的时候获取这个对象的数据
+            if(selcombodata[selrow.EAF_ID])  $(ed.target).combobox('select',selcombodata[selrow.EAF_ID]);
         }
         $.parser.parse();
     }
+    var selcombodata={};
     /*function context(b){  //formatter:context,放在第四列
         var ed = $('#ruleGrid').datagrid('getEditor',{index:0,field:'EAF_CONTENT'});
     }*/
