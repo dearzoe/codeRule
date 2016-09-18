@@ -87,13 +87,19 @@
                 }
 
             },},
-            {field:'EAF_CONTENT',title:'内容',width:118,align:'center',editor:{type:'text'}}
+            {field:'EAF_CONTENT',title:'内容',width:118,align:'center',formatter:productsAttrFormatter,editor:{type:'text'}}
             ]];
     function productFormatter(value){
         for(var i=0; i<products.length; i++){
             if (products[i].productid == value) return products[i].name;
         }
         return value;
+    }
+    function productsAttrFormatter(value){
+        for(var i=0; i<productsAttr.length; i++){
+            if (productsAttr[i].id == value) return productsAttr[i].text;
+        }
+        return value.text;
     }
     function seleCom(p){
         var selrow = $('#ruleGrid').datagrid('getSelected');
@@ -141,11 +147,11 @@
                     $('#ruleGrid').datagrid('updateRow',{
                         index: selrowindex,
                         row: {
-                            EAF_CONTENT: rec.text
+                            EAF_CONTENT: rec.id
                         }
                     });
                 },
-                panelHeight:0,
+                panelHeight:0
             });
             //$(ed.target).combobox('select',selrow.EAF_CONTENT);
         }
