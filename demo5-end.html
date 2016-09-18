@@ -38,8 +38,7 @@
         {EAF_NAME: '编码3', EAF_TYPE: "引用属性", EAF_SORT: "3", EAF_CONTENT: ""}
     ];
     //表格样式
-    var dataGridColumn = [
-        [
+    var dataGridColumn = [[
             {field: 'EAF_NAME', title: '名称', width: 118, align: 'center', editor: 'text'},
             {field: 'EAF_TYPE', title: '类型', width: 118, align: 'center', formatter: productFormatter, editor: {type: 'combobox',
                 options: {
@@ -67,11 +66,8 @@
     function seleCom(p) {
         var selrow = $('#ruleGrid').datagrid('getSelected');
         var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
-
          $('#ruleGrid').datagrid('cancelEdit',selrowindex);
          $('#ruleGrid').datagrid('beginEdit',selrowindex);
-
-
         var ed = $('#ruleGrid').datagrid('getEditor', {index: selrowindex, field: 'EAF_CONTENT'});
 //        $.parser.parse();
 //        if (p.productid == 0) {
@@ -141,7 +137,7 @@
             col.editor.type='text';
         }
         else if(type=='流水'){
-
+            col.editor.type='text';
         }
         else if(type=='引用属性'){
             col.editor.type='combobox';
