@@ -130,7 +130,7 @@
                 valueField:'id',
                 textField:'text',
                 data:productsAttr,
-                /*formatter:function(value){  //
+                /*formatter:function(value){  //这里加formatter 或者
                     debugger;//1
                     for(var i=0; i<productsAttr.length; i++){
                         if (productsAttr[i].id == value) return productsAttr[i].text;
@@ -212,6 +212,12 @@
                         var index = $('#ruleGrid').datagrid('getRowIndex', row);
                         $('#ruleGrid').datagrid('deleteRow', index);
                     }
+                }
+            },'-',{
+                text:'保存',
+                iconCls:'icon-save',
+                handler:function(){
+                    $('#ruleGrid').datagrid('acceptChanges');
                 }
             }],
             onBeforeLoad:function(){
