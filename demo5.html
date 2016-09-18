@@ -130,9 +130,24 @@
                 valueField:'id',
                 textField:'text',
                 data:productsAttr,
-                panelHeight:0
+                /*formatter:function(value){  //
+                    debugger;//1
+                    for(var i=0; i<productsAttr.length; i++){
+                        if (productsAttr[i].id == value) return productsAttr[i].text;
+                    }
+                    return value.text;
+                },*/
+                onSelect: function(rec){
+                    $('#ruleGrid').datagrid('updateRow',{
+                        index: selrowindex,
+                        row: {
+                            EAF_CONTENT: rec.text
+                        }
+                    });
+                },
+                panelHeight:0,
             });
-            $(ed.target).combobox('select',productsAttr[0].text);
+            //$(ed.target).combobox('select',selrow.EAF_CONTENT);
         }
         $.parser.parse();
     }
@@ -219,12 +234,12 @@
     //这段是保存按钮
     /*
     * ,'-',{
-     text:'保存',
-     iconCls:'icon-save',
-     handler:function(){
-     $('#ruleGrid').datagrid('acceptChanges');
-     }
-     }
+    text:'保存',
+    iconCls:'icon-save',
+    handler:function(){
+    $('#ruleGrid').datagrid('acceptChanges');
+    }
+    }
     *
     *
     * */
