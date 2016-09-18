@@ -133,7 +133,6 @@
             })
             $(ed.target).textbox('reset')
         }else if(p.productid == 2){
-            debugger;//1
             console.log($(ed.target).val())
             $(ed.target).combobox({
                 height:24,
@@ -142,14 +141,12 @@
                 textField:'text',
                 data:productsAttr,
                 /*formatter:function(value){  //这里加formatter 或者
-                    debugger;//1
                     for(var i=0; i<productsAttr.length; i++){
                         if (productsAttr[i].id == value) return productsAttr[i].text;
                     }
                     return value.text;
                 },*/
                 onSelect: function(rec){
-                    debugger;//1
                     selcombodata[selrow.EAF_ID]=rec.id;
                     try {
                         /*$('#ruleGrid').datagrid('updateRow', {
