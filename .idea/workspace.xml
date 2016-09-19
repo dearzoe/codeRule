@@ -40,8 +40,8 @@
       <file leaf-file-name="demo10.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo10.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6964048">
-              <caret line="244" column="29" selection-start-line="244" selection-start-column="29" selection-end-line="244" selection-end-column="29" />
+            <state vertical-scroll-proportion="-0.5379494">
+              <caret line="115" column="76" selection-start-line="115" selection-start-column="76" selection-end-line="115" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -407,7 +407,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474274456139</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="重改！-4（差每次选择的时候，内容框没有清空&amp;&amp;流水弹出框弹出，但是现实不完全）&#10;">
+      <created>1474275975716</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1474275975716</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView">
@@ -475,7 +481,8 @@
     <MESSAGE value="重改！-1" />
     <MESSAGE value="重改！-2" />
     <MESSAGE value="重改！-3&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="重改！-3&#10;" />
+    <MESSAGE value="重改！-4（差每次选择的时候，内容框没有清空&amp;&amp;流水弹出框弹出，但是现实不完全）&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="重改！-4（差每次选择的时候，内容框没有清空&amp;&amp;流水弹出框弹出，但是现实不完全）&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -921,8 +928,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/demo10.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6964048">
-          <caret line="244" column="29" selection-start-line="244" selection-start-column="29" selection-end-line="244" selection-end-column="29" />
+        <state vertical-scroll-proportion="-0.5379494">
+          <caret line="115" column="76" selection-start-line="115" selection-start-column="76" selection-end-line="115" selection-end-column="76" />
           <folding />
         </state>
       </provider>

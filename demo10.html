@@ -112,19 +112,20 @@
         return value;
     }
     function productsAttrFormatter(value, row, index) {
-        if (row.EAF_TYPE == 2) {
-            if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
+        if (row.EAF_TYPE == 2 || row.EAF_TYPE == "引用属性") {
+            //if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
             for (var i = 0; i < productsAttr.length; i++) {
                 if (productsAttr[i].id == value){
                     selcombodata[row.EAF_CONTENT]=productsAttr[i].text
                     return selcombodata[row.EAF_CONTENT];
                 }
             }
-        }else if(row.EAF_TYPE == 1){
+        }else if(row.EAF_TYPE == 1 ||row.EAF_TYPE == "流水"){
              row.EAF_CONTENT="";
-        }else if(row.EAF_TYPE == 0){
-            return value;
+        }else if(row.EAF_TYPE == 0 || row.EAF_TYPE == "固定字符串"){
+
         }
+        return value;
     }
     function aaa(){
         alert(1)
