@@ -238,7 +238,11 @@
         else if(type=='流水'||type=='1'){
             col.editor.type='textbox';
             col.editor.options= {
-                buttonText:'选择'
+                icons: [{
+                    iconCls: 'icon-edit',
+                    handler: editClick
+                }],
+                iconWidth: 120
             };
         }
         else if(type=='引用属性'||type=='2'){
