@@ -25,7 +25,7 @@ var dataDgData=[
 ];
 //表格样式
 var dataGridColumn=[[
-    {field:'EAF_NAME',title:'名称',width:143,align:'center',editor:'text',},
+    {field:'EAF_NAME',title:'名称',width:136,align:'center',editor:'text',},
     {field:'EAF_TYPE',title:'类型',width:143,align:'center',formatter:productFormatter,editor:{type:'combobox',
         options:{
             valueField:'productid',
@@ -87,6 +87,7 @@ function seleCom(p){
         })
         $(ed.target).textbox('reset')
     }else if(p.productid == 2){
+        debugger;//1
         var row = $('#ruleGrid').datagrid('getSelected');
         row.EAF_CONTENT="";
         $(ed.target).combobox({

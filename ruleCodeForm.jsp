@@ -27,9 +27,10 @@
     </div>
     </form>
     <!--上面是input checkbox|| 下面是datadgrid-->
-    <table id="ruleGrid" style="width:582px;position:" data-options="singleSelect:true,idField:'itemid'">
-
+    <div class="easyui-panel" style="width:585px;height:250px;">
+    <table id="ruleGrid" style="width:575px;position:" data-options="singleSelect:true,idField:'itemid'">
     </table>
+    </div>
     <div id="dg1" closed="true">
     <form style="margin: 15px 0px 0px 30px">
     <div style="margin-top:7px">&nbsp;star:<input type="text" style="text-align:center"></div>
