@@ -117,7 +117,11 @@
             for (var i = 0; i < productsAttr.length; i++) {
                 if (productsAttr[i].id == value) return productsAttr[i].text;
             }
+
+        }else if(row.EAF_TYPE == 1){
+             row.EAF_CONTENT="";
         }
+
         return value;
     }
     function seleCom(p) {
