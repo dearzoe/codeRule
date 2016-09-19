@@ -1,26 +1,28 @@
 <%@ include file='/main/head.jsp' %>
+<script src="<%=eafapppath %>/main/UserInterface/control.js" type="text/javascript"></script>
+<script src="<%=eafapppath %>/main/UserInterface/form.js" type="text/javascript"></script>
     <form id="ruleForm" action="" style="margin:20px 0px 20px 0px">
     <div style="padding:5px;">
-    <label for="ruleName" style="margin-left:50px;width:110px;display:inline-block">RuleName:</label>
+    <label for="ruleName" style="margin-left:50px;width:110px;display:inline-block">&nbsp;&nbsp;ruleName:</label>
     <input class="easyui-validatebox" type="text" name="ruleName" style="width:180px">
     </div>
     <div style="padding:5px;">
-    <label for="mainCode" style="margin-left:50px;width:110px;display:inline-block">isMainCode:</label>
+    <label for="mainCode" style="margin-left:50px;width:110px;display:inline-block">&nbsp;isMainCode:</label>
     <input class="easyui-validatebox" type="checkbox" name="mainCode">
     </div>
     <div style="padding:5px;">
-    <label for="mainCode" style="margin-left:50px;width:110px;display:inline-block">bornStyle:</label>
+    <label for="mainCode" style="margin-left:50px;width:110px;display:inline-block">&nbsp; bornStyle:</label>
     <select id="cc" class="easyui-combobox" name="buildAction" style="width:185px;" data-options="panelHeight:42">
     <option>auto</option>
     <option>manual</option>
     </select>
     </div>
     <div style="padding:5px;">
-    <label for="bornPublish" style="margin-left:50px;width:110px;display:inline-block">generate:</label>
+    <label for="bornPublish" style="margin-left:50px;width:110px;display:inline-block">&nbsp;&nbsp;generate:</label>
     <input class="easyui-validatebox" type="checkbox" name="bornPublish">
     </div>
     <div style="padding:5px;">
-    <label for="example" style="margin-left:50px;width:110px;display:inline-block">CodeSample:</label>
+    <label for="example" style="margin-left:50px;width:110px;display:inline-block">&nbsp;codeSample:</label>
     <input class="easyui-validatebox" type="text" style="width:180px">
     </div>
     </form>
