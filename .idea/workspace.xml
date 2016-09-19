@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47b95a2b-cf95-4851-a161-581cd8799dda" name="默认的" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/10—js.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/demo12-完结版.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo10.html" afterPath="$PROJECT_DIR$/demo10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ruleCodeForm.js" afterPath="$PROJECT_DIR$/ruleCodeForm.js" />
     </list>
     <ignored path="easy-ui(DEMO).iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,31 +40,43 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo10.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="demo10.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo10.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.5379494">
+            <state vertical-scroll-proportion="-1.75">
+              <caret line="113" column="34" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="10—js.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/10—js.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="237" column="17" selection-start-line="237" selection-start-column="17" selection-end-line="237" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#40#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="demo12-完结版.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/demo12-完结版.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-80.5">
               <caret line="115" column="76" selection-start-line="115" selection-start-column="76" selection-end-line="115" selection-end-column="76" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="limingzi.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/limingzi.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-117.03333">
-              <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ruleCodeForm.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ruleCodeForm.js" pinned="false" current-in-tab="true">
         <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.35265106">
+              <caret line="65" column="65" selection-start-line="65" selection-start-column="65" selection-end-line="65" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -70,7 +85,7 @@
       <file leaf-file-name="ruleCodeForm.jsp" pinned="false" current-in-tab="false">
         <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.5">
+            <state vertical-scroll-proportion="-2.9333334">
               <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding />
             </state>
@@ -83,9 +98,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="tsconfig.json" />
-        <option value="JavaScript File" />
         <option value="md" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -117,9 +132,11 @@
         <option value="$PROJECT_DIR$/编码规则交互json样例.json" />
         <option value="$PROJECT_DIR$/demo5.html" />
         <option value="$PROJECT_DIR$/../tieam.combobox.js" />
-        <option value="D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js" />
         <option value="D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp" />
+        <option value="$PROJECT_DIR$/demo12-完结版.html" />
         <option value="$PROJECT_DIR$/demo10.html" />
+        <option value="$PROJECT_DIR$/10—js.js" />
+        <option value="D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js" />
       </list>
     </option>
   </component>
@@ -184,12 +201,12 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/limingzi.html" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ruleCodeForm.js" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="js-jscs-nodeInterpreter" value="C:\快速启动工具\node.exe" />
-    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/limingzi.html" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/ruleCodeForm.js" />
     <property name="settings.editor.selected.configurable" value="File.Encoding" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
@@ -413,7 +430,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474275975716</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="重改！-5（差流水弹出框弹出，但是现实不完全）&#10;">
+      <created>1474277061694</created>
+      <option name="number" value="00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1474277061694</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TodoView">
@@ -429,7 +452,7 @@
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1836248" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1899841" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -482,7 +505,8 @@
     <MESSAGE value="重改！-2" />
     <MESSAGE value="重改！-3&#10;" />
     <MESSAGE value="重改！-4（差每次选择的时候，内容框没有清空&amp;&amp;流水弹出框弹出，但是现实不完全）&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="重改！-4（差每次选择的时候，内容框没有清空&amp;&amp;流水弹出框弹出，但是现实不完全）&#10;" />
+    <MESSAGE value="重改！-5（差流水弹出框弹出，但是现实不完全）&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="重改！-5（差流水弹出框弹出，但是现实不完全）&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -491,45 +515,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/demo4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="83" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#div#0;n#html#0;n#!!top" expanded="false" />
-            <marker date="1473756773771" expanded="true" signature="4605:5492" placeholder="/*...*/" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo5.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#label#0;n#div#2;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#3;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#label#0;n#div#3;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#4;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#1;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#2;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#input#0;n#div#2;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#3;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#input#0;n#div#3;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo7.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -904,15 +889,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/limingzi.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-117.03333">
-          <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
+        <state vertical-scroll-proportion="-1.8770807">
+          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo12-完结版.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-80.5">
+          <caret line="115" column="76" selection-start-line="115" selection-start-column="76" selection-end-line="115" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/demo10.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.75">
+          <caret line="113" column="34" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/10—js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="237" column="17" selection-start-line="237" selection-start-column="17" selection-end-line="237" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#40#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.5">
+        <state vertical-scroll-proportion="-2.9333334">
           <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
           <folding />
         </state>
@@ -920,16 +931,8 @@
     </entry>
     <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo10.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.5379494">
-          <caret line="115" column="76" selection-start-line="115" selection-start-column="76" selection-end-line="115" selection-end-column="76" />
+        <state vertical-scroll-proportion="0.35265106">
+          <caret line="65" column="65" selection-start-line="65" selection-start-column="65" selection-end-line="65" selection-end-column="65" />
           <folding />
         </state>
       </provider>

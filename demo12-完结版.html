@@ -112,8 +112,6 @@
         return value;
     }
     function productsAttrFormatter(value, row, index) {
-        debugger;//1
-        //在这里加一个循环判断，判断value是否属于“引用属性之中的值”，如果不是就清空row.EAF_CONTENT="";
         if (row.EAF_TYPE == 2 || row.EAF_TYPE == "引用属性") {
             //if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
             for (var i = 0; i < productsAttr.length; i++) {
@@ -125,9 +123,9 @@
         }else if(row.EAF_TYPE == 1 ||row.EAF_TYPE == "流水"){
              row.EAF_CONTENT="";
         }else if(row.EAF_TYPE == 0 || row.EAF_TYPE == "固定字符串"){
-             return value;
-        }
 
+        }
+        return value;
     }
     function aaa(){
         alert(1)
@@ -137,67 +135,7 @@
         var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
         $('#ruleGrid').datagrid('endEdit',selrowindex);
         $('#ruleGrid').datagrid('beginEdit',selrowindex);
-        /*var ed = $('#ruleGrid').datagrid('getEditor', {index: selrowindex, field: 'EAF_CONTENT'});
-        $.parser.parse();
-        if (p.productid == 0) {
-            $(ed.target).textbox({
-                height: 24,
-                width: 117,
-                icons: [{
-                    iconCls: 'icon-edit',
-                    handler: editClick
-                }],
-                iconWidth: 0
-            })
-            $(ed.target).textbox('reset')
-        } else if (p.productid == 1) {
-            $(ed.target).textbox({
-                height: 24,
-                width: 117,
-                icons: [{
-                    iconCls: 'icon-edit',
-                    handler: editClick
-                }],
-                iconWidth: 110
-            })
-            $(ed.target).textbox('reset')
-        } else if (p.productid == 2) {
-            console.log($(ed.target).val())
-            $(ed.target).combobox({
-                height: 24,
-                width: 117,
-                valueField: 'id',
-                textField: 'text',
-                data: productsAttr,
-                /!*formatter:function(value){  //这里加formatter 或者
-                 for(var i=0; i<productsAttr.length; i++){
-                 if (productsAttr[i].id == value) return productsAttr[i].text;
-                 }
-                 return value.text;
-                 },*!/
-                onSelect: function (rec) {
-                    selcombodata[selrow.EAF_ID] = rec.id;
-                    try {
-                        /!*$('#ruleGrid').datagrid('updateRow', {
-                         index: selrowindex,
-                         row: {
-                         EAF_CONTENT: rec.id
-                         }
-                         });*!/
-                    } catch (e) {
-                    }
-                },
-                panelHeight: 0
-            });
-
-            //注意这里 EAF_CONTENT 的值就是selcombodata[selrow.EAF_ID] 的值  取值的时候获取这个对象的数据
-            if (selcombodata[selrow.EAF_ID])  $(ed.target).combobox('select', selcombodata[selrow.EAF_ID]);
-        }
-        $.parser.parse();*/
     }
-    /*function context(b){  //formatter:context,放在第四列
-     var ed = $('#ruleGrid').datagrid('getEditor',{index:0,field:'EAF_CONTENT'});
-     }*/
     function editClick(selrowindex) {
         $("#dg1").dialog({
             title: "流水",
@@ -231,7 +169,6 @@
     }
     function onBeforeEditHandeler(rowIndex, rowData){
         var col = $(this).datagrid('getColumnOption','EAF_CONTENT');
-        // 类型
         var type=$('#ruleGrid').datagrid('getSelected').EAF_TYPE;
         if(type=='固定字符串'||type=='0'){
             col.editor.type='text';
@@ -309,17 +246,5 @@
         });
         $.parser.parse();
     });
-    //这段是保存按钮
-    /*
-     * ,'-',{
-     text:'保存',
-     iconCls:'icon-save',
-     handler:function(){
-     $('#ruleGrid').datagrid('acceptChanges');
-     }
-     }
-     *
-     *
-     * */
 </script>
 </html>

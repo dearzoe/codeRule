@@ -53,14 +53,19 @@ function productsAttrFormatter(value,row,index){
         for (var i = 0; i < productsAttr.length; i++) {
             if (productsAttr[i].id == value) return productsAttr[i].text;
         }
+    }else if (row.EAF_TYPE == 1 || row.EAF_TYPE == "流水") {
+        row.EAF_CONTENT = "";
+    } else if (row.EAF_TYPE == 0 || row.EAF_TYPE == "固定字符串") {
+        return value;
     }
-    return value;
 }
 function seleCom(p){
     debugger;//1
     var selrow = $('#ruleGrid').datagrid('getSelected');
     var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
-    var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
+    $('#ruleGrid').datagrid('endEdit', selrowindex);
+    $('#ruleGrid').datagrid('beginEdit', selrowindex);
+   /* var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
     $.parser.parse();
     if(p.productid == 0){
         $(ed.target).textbox({
@@ -104,7 +109,7 @@ function seleCom(p){
         $(ed.target).combobox('setValue',selcombodata[selrow.EAF_CONTENT])
         if(selcombodata[selrow.EAF_ID])  $(ed.target).combobox('select',selcombodata[selrow.EAF_ID]);
     }
-    $.parser.parse();
+    $.parser.parse();*/
 }
 /*function context(b){  //formatter:context,放在第四列
  var ed = $('#ruleGrid').datagrid('getEditor',{index:0,field:'EAF_CONTENT'});
@@ -141,9 +146,37 @@ $("#dg1").dialog({
 function openDialog(){
     $('#dg1').dialog('open');
 }
+function onBeforeEditHandeler(rowIndex, rowData) {
+    var col = $(this).datagrid('getColumnOption', 'EAF_CONTENT');
+    // 类型
+    var type = $('#ruleGrid').datagrid('getSelected').EAF_TYPE;
+    if (type == '固定字符串' || type == '0') {
+        col.editor.type = 'text';
+    }
+    else if (type == '流水' || type == '1') {
+        col.editor.type = 'textbox';
+        col.editor.options = {
+            icons: [{
+                iconCls: 'icon-edit',
+                handler: editClick
+            }],
+            iconWidth: 120
+        };
+    }
+    else if (type == '引用属性' || type == '2') {
+        col.editor.type = 'combobox';
+        col.editor.options = {
+            valueField: 'id',
+            textField: 'text',
+            data: productsAttr,
+            panelHeight: 0
+        }
+    }
+}
 $(function(){
     var lastIndex;
     $('#ruleGrid').datagrid({
+        onBeforeEdit: onBeforeEditHandeler,
         toolbar:[{
             text:'添加',
             iconCls:'icon-add',
