@@ -48,7 +48,7 @@ function productFormatter(value){
     return value;
 }
 function productsAttrFormatter(value,row,index){
-    if(row.EAF_TYPE==2) {
+    if(row.EAF_TYPE==2 || row.EAF_TYPE=="引用属性") {
         if (selcombodata[row.EAF_ID])value=selcombodata[row.EAF_ID];
         for (var i = 0; i < productsAttr.length; i++) {
             if (productsAttr[i].id == value) return productsAttr[i].text;
@@ -62,7 +62,6 @@ function seleCom(p){
     var selrowindex = $('#ruleGrid').datagrid('getRowIndex',selrow);
     var ed = $('#ruleGrid').datagrid('getEditor', {index:selrowindex,field:'EAF_CONTENT'});
     $.parser.parse();
-
     if(p.productid == 0){
         $(ed.target).textbox({
             height:22,
@@ -98,9 +97,11 @@ function seleCom(p){
             data:productsAttr,
             onSelect: function(rec){
                 selcombodata[selrow.EAF_ID]=rec.id;
+                selcombodata[selrow.EAF_CONTENT]=rec.text
             },
             panelHeight:0
         });
+        $(ed.target).combobox('setValue',selcombodata[selrow.EAF_CONTENT])
         if(selcombodata[selrow.EAF_ID])  $(ed.target).combobox('select',selcombodata[selrow.EAF_ID]);
     }
     $.parser.parse();
@@ -179,6 +180,9 @@ $(function(){
             $(this).datagrid('rejectChanges');
         },
         onClickRow:function(rowIndex,row){
+            if(row.type == '固定字符串'){
+               $(ed.target).combobox('setValue',selcombodata[selrow.EAF_CONTENT])
+            }
             if (lastIndex != rowIndex){
                 $('#ruleGrid').datagrid('endEdit', lastIndex);
                 $('#ruleGrid').datagrid('beginEdit', rowIndex);
