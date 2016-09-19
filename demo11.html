@@ -115,19 +115,14 @@
         if (row.EAF_TYPE == 2) {
             if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
             for (var i = 0; i < productsAttr.length; i++) {
-                if (productsAttr[i].id == value){
-                    selcombodata[row.EAF_CONTENT]=productsAttr[i].text
-                    return selcombodata[row.EAF_CONTENT];
-                }
+                if (productsAttr[i].id == value) return productsAttr[i].text;
             }
+
         }else if(row.EAF_TYPE == 1){
              row.EAF_CONTENT="";
-        }else if(row.EAF_TYPE == 0){
-            return value;
         }
-    }
-    function aaa(){
-        alert(1)
+
+        return value;
     }
     function seleCom(p) {
         var selrow = $('#ruleGrid').datagrid('getSelected');
@@ -236,10 +231,7 @@
             col.editor.type='text';
         }
         else if(type=='流水'||type=='1'){
-            col.editor.type='textbox';
-            col.editor.options= {
-                buttonText:'选择'
-            };
+            col.editor.type='text';
         }
         else if(type=='引用属性'||type=='2'){
             col.editor.type='combobox';

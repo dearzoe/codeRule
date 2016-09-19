@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="47b95a2b-cf95-4851-a161-581cd8799dda" name="默认的" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/demo11.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo10.html" afterPath="$PROJECT_DIR$/demo10.html" />
     </list>
@@ -27,11 +28,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="RolePower.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://D:/TiMDM/webapps/web/main/AccessCtrl/RolePower.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.5">
+              <caret line="5" column="70" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="70" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="demo10.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo10.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.24900132">
-              <caret line="139" column="25" selection-start-line="139" selection-start-column="25" selection-end-line="139" selection-end-column="25" />
+            <state vertical-scroll-proportion="3.8002663">
+              <caret line="240" column="31" selection-start-line="240" selection-start-column="31" selection-end-line="240" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -40,8 +51,28 @@
       <file leaf-file-name="limingzi.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/limingzi.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-119.13333">
+            <state vertical-scroll-proportion="-117.03333">
               <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ruleCodeForm.js" pinned="false" current-in-tab="false">
+        <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ruleCodeForm.jsp" pinned="false" current-in-tab="false">
+        <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.5">
+              <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
               <folding />
             </state>
           </provider>
@@ -87,6 +118,8 @@
         <option value="$PROJECT_DIR$/编码规则交互json样例.json" />
         <option value="$PROJECT_DIR$/demo5.html" />
         <option value="$PROJECT_DIR$/../tieam.combobox.js" />
+        <option value="D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js" />
+        <option value="D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp" />
         <option value="$PROJECT_DIR$/demo10.html" />
       </list>
     </option>
@@ -363,7 +396,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474266388144</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="重改！-2">
+      <created>1474268587236</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1474268587236</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TodoView">
@@ -379,7 +418,7 @@
     <frame x="-8" y="-8" width="1296" height="1000" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1836248" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1836248" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.9" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="调试" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -429,7 +468,8 @@
     <MESSAGE value="success-05" />
     <MESSAGE value="重改！" />
     <MESSAGE value="重改！-1" />
-    <option name="LAST_COMMIT_MESSAGE" value="重改！-1" />
+    <MESSAGE value="重改！-2" />
+    <option name="LAST_COMMIT_MESSAGE" value="重改！-2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -438,27 +478,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/demo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="62" selection-start-line="59" selection-start-column="62" selection-end-line="59" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/demo2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="34" selection-start-line="71" selection-start-column="16" selection-end-line="71" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/easyui此任务使用心得；.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -699,27 +718,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/TiMDM/webapps/web/main/AccessCtrl/RolePower.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.48399487">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/TiMDM/webapps/web/main/AccessCtrl/RolePower_Model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5339088">
-          <caret line="414" column="3" selection-start-line="414" selection-start-column="3" selection-end-line="414" selection-end-column="3" />
-          <folding>
-            <marker date="1473752013758" expanded="true" signature="4315:4332" placeholder="//..." />
-            <marker date="1473752013758" expanded="true" signature="7205:7239" placeholder="//..." />
-            <marker date="1473752013758" expanded="true" signature="12605:13238" placeholder="{...}" />
-            <marker date="1473752013758" expanded="true" signature="14371:14382" placeholder="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/5.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.8">
@@ -854,14 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/limingzi.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-119.13333">
-          <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../tieam.combobox.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.4401973">
@@ -870,10 +860,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/demo11.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/TiMDM/webapps/web/main/AccessCtrl/RolePower.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.5">
+          <caret line="5" column="70" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/TiMDM/webapps/web/main/AccessCtrl/RolePower_Model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10357583">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="39" />
+          <folding>
+            <marker date="1473752013758" expanded="true" signature="4315:4332" placeholder="//..." />
+            <marker date="1473752013758" expanded="true" signature="7205:7239" placeholder="//..." />
+            <marker date="1473752013758" expanded="true" signature="12605:13238" placeholder="{...}" />
+            <marker date="1473752013758" expanded="true" signature="14371:14382" placeholder="//..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/limingzi.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-117.03333">
+          <caret line="182" column="19" selection-start-line="182" selection-start-column="19" selection-end-line="182" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.5">
+          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/TiEAM_AF/webapps/web/main/DataModel/ruleCodeForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/demo10.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24900132">
-          <caret line="139" column="25" selection-start-line="139" selection-start-column="25" selection-end-line="139" selection-end-column="25" />
+        <state vertical-scroll-proportion="3.8002663">
+          <caret line="240" column="31" selection-start-line="240" selection-start-column="31" selection-end-line="240" selection-end-column="31" />
           <folding />
         </state>
       </provider>
