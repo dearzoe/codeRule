@@ -106,14 +106,12 @@
         }
     ]];
     function productFormatter(value) {
-        debugger;//1
         for (var i = 0; i < products.length; i++) {
             if (products[i].productid == value) return products[i].name;
         }
         return value;
     }
     function productsAttrFormatter(value, row, index) {
-        debugger;//1
         //在这里加一个循环判断，判断value是否属于“引用属性之中的值”，如果不是就清空row.EAF_CONTENT="";
         if (row.EAF_TYPE == 2 || row.EAF_TYPE == "引用属性") {
             //if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
@@ -123,15 +121,19 @@
                     return selcombodata[row.EAF_CONTENT];
                 }
             }
+            row.EAF_CONTENT="";
         }else if(row.EAF_TYPE == 1 ||row.EAF_TYPE == "流水"){
              row.EAF_CONTENT="";
         }else if(row.EAF_TYPE == 0 || row.EAF_TYPE == "固定字符串"){
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value){
+                    row.EAF_CONTENT="";
+                    return row.EAF_CONTENT;
+                }
+            }
              return value;
         }
 
-    }
-    function aaa(){
-        alert(1)
     }
     function seleCom(p) {
         var selrow = $('#ruleGrid').datagrid('getSelected');
@@ -231,7 +233,6 @@
         })
     }
     function onBeforeEditHandeler(rowIndex, rowData){
-        debugger;//2
         var col = $(this).datagrid('getColumnOption','EAF_CONTENT');
         // 类型
         var type=$('#ruleGrid').datagrid('getSelected').EAF_TYPE;
