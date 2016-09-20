@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+       这段代码的功能是当选择表格中“动态下拉框”时（有三中属性），每选择一种属性，其对应行中的“动态编辑器框”也会跟着改变（会变成“文本框”，“按钮”，“下拉框”）
+       ---使用自编码规则
+    -->
+    <meta charset="UTF-8">
+    <title>编码规则</title>
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jeasyui.com/easyui/themes/icon.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>
+    <!--这个easyui.min.js 与 官网上的有不同，只要是公司内部的easyui.min.js就可以-->
+    <script type="text/javascript" src="https://dearzoe.github.io/codeRule/jquery.easyui.min.js"></script>
+</head>
+<body>
+    <table id="ruleGrid" style="width:482px;height:auto" data-options="singleSelect:true,idField:'itemid'">
+    </table>
+</body>
+<script>
+    //类型的下拉框数据
+    var products = [
+        {productid: '0', name: '固定字符串'},
+        {productid: '1', name: '流水'},
+        {productid: '2', name: '引用属性'}
+    ];
+    //类型为引用属性时的下拉框数据
+    var productsAttr = [
+        {id: '0', text: '引用属性1'},
+        {id: '1', text: '引用属性2'}
+    ]
+    //表格数据
+    var dataDgData = [
+        {EAF_TYPE: "0", EAF_CONTENT: ""},
+        {EAF_TYPE: "1", EAF_CONTENT: ""},
+        {EAF_TYPE: "2", EAF_CONTENT: ""}
+    ];
+    //表格样式
+    var dataGridColumn = [[
+        {field: 'EAF_TYPE', title: '动态下拉框', width: 235, align: 'center', formatter: productFormatter, editor: {
+         type: 'combobox',
+         options: {valueField: 'productid',
+                   textField: 'name',
+                   data: products,
+                   onChange:onChangeHandeler,
+                   panelHeight: 62}
+            }
+        },
+        {field: 'EAF_CONTENT',
+         title: '动态编辑器框',
+         width: 235,
+         align: 'center',
+         formatter: productsAttrFormatter,
+         editor: {type: 'text'}
+        }
+    ]];
+    /**
+     * “动态下拉框”改变的时候触发
+     * @param newValue   改变后动态下拉框的数据ID
+     * @param oldValue   改变前动态下拉框的数据ID
+     */
+    function onChangeHandeler(newValue,oldValue) {
+        //初次点击时候，oldValue为空，直接返回
+        if(oldValue==''){
+            return;
+        }
+        //获取“动态下拉框”改变前的行数据
+        var selrow = $('#ruleGrid').datagrid('getSelected');
+        //行的索引
+        var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
+        $('#ruleGrid').datagrid('endEdit',selrowindex);
+        //非初次点击，直接清空动态编辑器框中的值
+        selrow.EAF_CONTENT='';
+        $('#ruleGrid').datagrid('beginEdit',selrowindex);
+    }
+    //渲染“动态下拉框”
+    function productFormatter(value) {
+        for (var i = 0; i < products.length; i++) {
+            if (products[i].productid == value) return products[i].name;
+        }
+        return value;
+    }
+    //渲染“动态编辑框”
+    function productsAttrFormatter(value, row, index) {
+     //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
+     if (row.EAF_TYPE == 2) {
+         for (var i = 0; i < productsAttr.length; i++) {
+             if (productsAttr[i].id == value) return productsAttr[i].text;
+         }
+      }
+        return value;
+    }
+    function editClick(){
+        alert("流水按钮已经点击")
+    }
+    //编辑表格前触发
+    function onBeforeEditHandeler(rowIndex, rowData){
+        var col = $(this).datagrid('getColumnOption','EAF_CONTENT');
+        // “动态下拉框”的类型
+        var type=$('#ruleGrid').datagrid('getSelected').EAF_TYPE;
+        if(type=='0'){
+            col.editor.type='text';
+        }
+        else if(type=='1'){
+            col.editor.type='textbox';
+            col.editor.options= {
+                icons: [{
+                    iconCls: 'icon-edit',
+                    handler: editClick
+                }],
+                iconWidth: 237
+            };
+        }
+        else if(type=='2'){
+            col.editor.type='combobox';
+            col.editor.options={
+                valueField: 'id',
+                textField: 'text',
+                data: productsAttr,
+                panelHeight: 0
+            }
+        }
+    }
+    $(function () {
+        //最后选中的index
+        var lastIndex;
+        $('#ruleGrid').datagrid({
+            onBeforeEdit: onBeforeEditHandeler,
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //添加时，先结束上一个的编辑
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('appendRow', {
+                        //新增一行的数据
+                        EAF_TYPE: '0',
+                        EAF_CONTENT: ''
+                    });
+                    lastIndex = $('#ruleGrid').datagrid('getRows').length - 1;
+                    $('#ruleGrid').datagrid('selectRow', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', lastIndex);
+                }
+            }],
+            onClickRow: function (rowIndex, row) {
+                if (lastIndex != rowIndex) {
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', rowIndex);
+                }
+                lastIndex = rowIndex;
+            },
+            //表格样式
+            columns: dataGridColumn,
+            //表格数据
+            data: dataDgData
+        });
+        $.parser.parse();
+    });
+</script>
+</html>
