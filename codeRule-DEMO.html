@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="easyui.css">
+    <link rel="stylesheet" type="text/css" href="icon.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<body>
+<div id="eaf_code" class="easyui-dialog" title="编码规则" style="width:525px;padding:10px;">
+    <form id="ruleForm" action="">
+        <div style="padding:5px;">
+            <label for="ruleName" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;规则名称：</label>
+            <input class="easyui-validatebox" type="text" name="ruleName" style="width:180px">
+        </div>
+        <div style="padding:5px;">
+            <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;是否为主编码：</label>
+            <input class="easyui-validatebox" type="checkbox" name="mainCode">
+        </div>
+        <div style="padding:5px;">
+            <label for="mainCode" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;生成方式：</label>
+            <select id="cc" class="easyui-combobox" name="buildAction" style="width:185px;"
+                    data-options="panelHeight:42">
+                <option>自动</option>
+                <option>手动</option>
+            </select>
+        </div>
+        <div style="padding:5px;">
+            <label for="bornPublish" style="width:110px;display:inline-block">是否在发布时生成：</label>
+            <input class="easyui-validatebox" type="checkbox" name="bornPublish">
+        </div>
+        <div style="padding:5px;">
+            <label for="example" style="width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;编码样例：</label>
+            <input class="easyui-validatebox" type="text" style="width:180px">
+        </div>
+    </form>
+    <!--上面是input checkbox|| 下面是datadgrid-->
+    <table id="ruleGrid" style="width:482px;height:auto" data-options="singleSelect:true,idField:'itemid'">
+
+    </table>
+</div>
+</body>
+<script>
+    //类型的下拉框数据
+    var products = [
+        {productid: '0', name: '固定字符串'},
+        {productid: '1', name: '流水'},
+        {productid: '2', name: '引用属性'}
+    ];
+    //类型为引用属性时的下拉框数据
+    var productsAttr = [
+        {id: '0', text: 'EAF_ID'},
+        {id: '1', text: 'EAF_NAME'},
+        {id: '2', text: 'EAF_HEIGHT'},
+        {id: '3', text: 'EAF_WIDTH'},
+        {id: '4', text: 'EAF_COLOR'}
+    ]
+    //类型为引用属性时的下拉框数据
+    var selcombodata = {};
+    //表格数据
+    var dataDgData = [
+        {EAF_NAME: '编码1', EAF_TYPE: "固定字符串", EAF_CONTENT: ""},
+        {EAF_NAME: '编码2', EAF_TYPE: "流水", EAF_CONTENT: ""},
+        {EAF_NAME: '编码3', EAF_TYPE: "引用属性", EAF_CONTENT: ""}
+    ];
+    //表格样式
+    var dataGridColumn = [[
+        {field: 'EAF_NAME', title: '名称', width: 157, align: 'center', editor: 'text',},
+        {
+            field: 'EAF_TYPE', title: '类型', width: 157, align: 'center', formatter: productFormatter, editor: {
+            type: 'combobox',
+            options: {
+                valueField: 'productid',
+                textField: 'name',
+                data: products,
+                onSelect: seleCom,
+                panelHeight: 62
+            }
+        }
+        },
+        {
+            field: 'EAF_CONTENT',
+            title: '内容',
+            width: 157,
+            align: 'center',
+            formatter: productsAttrFormatter,
+            editor: {type: 'text'}
+        }
+    ]];
+    function productFormatter(value) {
+        for (var i = 0; i < products.length; i++) {
+            if (products[i].productid == value) return products[i].name;
+        }
+        return value;
+    }
+    function productsAttrFormatter(value, row, index) {
+        if (row.EAF_TYPE == 2 || row.EAF_TYPE == "引用属性") {
+            //if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value){
+                    selcombodata[row.EAF_CONTENT]=productsAttr[i].text
+                    return selcombodata[row.EAF_CONTENT];
+                }
+            }
+            row.EAF_CONTENT="";
+        }else if(row.EAF_TYPE == 1 ||row.EAF_TYPE == "流水"){
+            row.EAF_CONTENT="";
+        }else if(row.EAF_TYPE == 0 || row.EAF_TYPE == "固定字符串"){
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value){
+                    row.EAF_CONTENT="";
+                    return row.EAF_CONTENT;
+                }
+            }
+            return value;
+        }
+    }
+    function seleCom(p) {
+        var selrow = $('#ruleGrid').datagrid('getSelected');
+        var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
+        $('#ruleGrid').datagrid('endEdit',selrowindex);
+        $('#ruleGrid').datagrid('beginEdit',selrowindex);
+    }
+    function editClick(){
+        console.log("流水按钮已经点击")
+    }
+    function onBeforeEditHandeler(rowIndex, rowData){
+        var col = $(this).datagrid('getColumnOption','EAF_CONTENT');
+        // 类型
+        var type=$('#ruleGrid').datagrid('getSelected').EAF_TYPE;
+        if(type=='固定字符串'||type=='0'){
+            col.editor.type='text';
+        }
+        else if(type=='流水'||type=='1'){
+            col.editor.type='textbox';
+            col.editor.options= {
+                icons: [{
+                    iconCls: 'icon-edit',
+                    handler: editClick
+                }],
+                iconWidth: 159
+            };
+        }
+        else if(type=='引用属性'||type=='2'){
+            col.editor.type='combobox';
+            col.editor.options={
+                valueField: 'id',
+                textField: 'text',
+                data: productsAttr,
+                panelHeight: 0
+            }
+        }
+    }
+    $(function () {
+        var lastIndex;
+        $('#ruleGrid').datagrid({
+            onBeforeEdit: onBeforeEditHandeler,
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('appendRow', {
+                        EAF_NAME: '',
+                        EAF_TYPE: '0',
+                        EAF_SORT: '',
+                        EAF_CONTENT: ''
+                    });
+                    lastIndex = $('#ruleGrid').datagrid('getRows').length - 1;
+                    $('#ruleGrid').datagrid('selectRow', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', lastIndex);
+                }
+            }],
+            onBeforeLoad: function () {
+                $(this).datagrid('rejectChanges');
+            },
+            onClickRow: function (rowIndex, row) {
+                if (lastIndex != rowIndex) {
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', rowIndex);
+                }
+                lastIndex = rowIndex;
+            },
+            //表格样式
+            columns: dataGridColumn,
+            //表格数据
+            data: dataDgData
+        });
+        $.parser.parse();
+    });
+</script>
+</html>
