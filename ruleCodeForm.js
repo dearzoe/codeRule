@@ -341,11 +341,12 @@ function getResult(){
     }else{
         dataDgDataNew["MAIN"]["EAF_WHENPUBLISH"]=0
     }
-    var selrow = $('#ruleGrid').datagrid('getSelected');
+    //var selrow = $('#ruleGrid').datagrid('getSelected');
+    //debugger;//1
+    //var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
+    //$('#ruleGrid').datagrid('endEdit', selrowindex);
+    dataDgDataNew["SECTIONS"]= $('#ruleGrid').datagrid("getData");
     debugger;//1
-    var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
-    $('#ruleGrid').datagrid('endEdit', selrowindex);
-    dataDgDataNew["SECTIONS"]= $('#ruleGrid').datagrid("getChanges");
     console.log(dataDgDataNew)
     console.log(dataDgDelete)
 }
