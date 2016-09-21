@@ -59,6 +59,24 @@ var parentData={
 }
 
 /*****************************************/
+//获取类ID
+clsid = eaf.getUrlParam('clsid');
+//获取属性列表
+var attrs = ctl.getAttrExByCls(clsid);
+console.log(attrs);
+var productsAttr=[];
+var curProductsAttr={};
+for(var i=0; i<attrs.length;i++){
+    if(attrs[i].EAF_ISCODE == "Y"){
+        curProductsAttr.
+    }
+}
+
+
+
+
+
+/*****************************************/
 //构造新的表格数据
 var dataDgDataNew = [];
 //这里构造form表单上半段的数据；
