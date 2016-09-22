@@ -24,7 +24,6 @@
             <input id="eaf_example_form" class="easyui-validatebox" type="text" style="width:180px">
         </div>
     </form>
-    <!--上面是input checkbox|| 下面是datadgrid-->
     <div class="easyui-panel" style="width:585px;height:250px;">
         <table id="eaf_rule_grid" style="width:575px;position:" data-options="singleSelect:true,idField:'itemid'">
         </table>
