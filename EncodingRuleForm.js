@@ -61,24 +61,6 @@ var parentData = {
         }
     ]
 };
-/**************************************************************/
-var ruleString = eaf.getLabel('eaf_rule_string')
-var ruleWater = eaf.getLabel('eaf_rule_water')
-var ruleReference = eaf.getLabel('eaf_rule_reference')
-var ruleDatagridName = eaf.getLabel('eaf_rule_datagridName')
-var ruleDatagridType = eaf.getLabel('eaf_rule_datagridType')
-var ruleDatagridSort = eaf.getLabel('eaf_rule_datagridSort')
-var ruleDatagridContent = eaf.getLabel('eaf_rule_datagridContent')
-var ruleDatagridWater = eaf.getLabel('eaf_rule_datagridWater')
-var ruleDatagridReset = eaf.getLabel('eaf_rule_datagridReset')
-var ruleDatagridOk = eaf.getLabel('eaf_rule_datagridOk')
-var ruleDatagridCancel = eaf.getLabel('eaf_rule_datagridCancel')
-var ruleDatagridAdd = eaf.getLabel('eaf_rule_datagridAdd')
-var ruleDatagridRemove = eaf.getLabel('eaf_rule_datagridRemove')
-var ruleAuto = eaf.getLabel('eaf_rule_auto')
-var ruleManual = eaf.getLabel('eaf_rule_manual')
-
-/**************************************************************/
 //获取类ID
 var clsid = eaf.getUrlParam('clsid');
 //表单界面id
@@ -99,6 +81,7 @@ dataDgDataNew["SECTIONS"] = [];
 dataDgDataNew["SNS"] = [];
 //删除数据数组
 var dataDgDelete = [];
+$(function(){
 //类型的下拉框数据
 var products = [
     {productid: '0', name: eaf.getLabel('eaf_rule_fixString')},
@@ -109,7 +92,12 @@ var products = [
 var dataGridColumn = [[
     {field: 'EAF_NAME', title: eaf.getLabel('eaf_rule_datagridName'), width: 136, align: 'center', editor: 'text',},
     {
-        field: 'EAF_TYPE', title: eaf.getLabel('eaf_rule_datagridType'), width: 143, align: 'center', formatter: productFormatter, editor: {
+        field: 'EAF_TYPE', title: eaf.getLabel('eaf_rule_datagridType'), width: 143, align: 'center', formatter: function(value){
+        for (var i = 0; i < products.length; i++) {
+            if (products[i].productid == value) return products[i].name;
+        }
+        return value;
+    }, editor: {
         type: 'combobox',
         options: {
             valueField: 'productid',
@@ -126,11 +114,130 @@ var dataGridColumn = [[
     }
     },
     {
-        field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: productsAttrFormatter, editor: {
+        field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){// **暂留** if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
+        //获取引用属性的下拉框数据
+        getProductsAttr(attrs);
+        //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
+        if (row.EAF_TYPE == 2) {
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value) return productsAttr[i].text;
+            }
+        }
+        return value;
+    }, editor: {
         type: 'text'
     }
     }
 ]];
+    //获取eaf_bornStyle_form下拉框
+    $("#eaf_bornStyle_form").combobox({
+        panelHeight:42,
+        valueField:'label',
+        textField: 'value',
+        data: [{
+            label: '0',
+            value: eaf.getLabel('eaf_rule_auto'),
+            selected:true
+        },{
+            label: '1',
+            value: eaf.getLabel('eaf_rule_manual')
+        }]
+    })
+    //获取表格数据
+    getDgData(parentData);
+    //最后点击的索引
+    var lastIndex;
+    $('#eaf_rule_grid').datagrid({
+        onBeforeEdit: onBeforeEditHandeler,
+        striped: true,
+        toolbar: [{
+            text: eaf.getLabel('eaf_rule_datagridAdd'),
+            iconCls: 'icon-add',
+            handler: function () {
+                $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
+                $('#eaf_rule_grid').datagrid('appendRow', {
+                    EAF_NAME: '',
+                    EAF_TYPE: '0',
+                    EAF_ORDER: '1',
+                    EAF_CONTENT: ''
+                });
+                lastIndex = $('#eaf_rule_grid').datagrid('getRows').length - 1;
+                $('#eaf_rule_grid').datagrid('selectRow', lastIndex);
+                $('#eaf_rule_grid').datagrid('beginEdit', lastIndex);
+            }
+        }, '-', {
+            text: eaf.getLabel('eaf_rule_datagridRemove'),
+            iconCls: 'icon-remove',
+            handler: function () {
+                //获取所选行的数据
+                var row = $('#eaf_rule_grid').datagrid('getSelected');
+                dataDgDelete.push(row.EAF_ID)
+                if (row) {
+                    //获取所选行的索引
+                    var index = $('#eaf_rule_grid').datagrid('getRowIndex', row);
+                    $('#eaf_rule_grid').datagrid('deleteRow', index);
+                }
+            }
+        }],
+        onBeforeLoad: function () {
+            $(this).datagrid('rejectChanges');
+        },
+        onClickRow: function (rowIndex, row) {
+            if (lastIndex != rowIndex) {
+                $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
+                $('#eaf_rule_grid').datagrid('beginEdit', rowIndex);
+            }
+            lastIndex = rowIndex;
+        },
+        //表格样式
+        columns: dataGridColumn,
+        //表格数据
+        data: dataDgData
+    });
+    $.parser.parse();
+    $("#rule_water_grid").dialog({
+        title: eaf.getLabel('eaf_rule_water'),
+        width: 300,
+        height: 200,
+        buttons: [
+            {
+                text: eaf.getLabel('eaf_rule_datagridReset'),
+                plain: true,
+                iconCls: "icon-reload",
+                handler: function () {
+                    alert("我点击了流水的reset键！")
+                }
+            },
+            {
+                text: eaf.getLabel('eaf_rule_datagridOk'),
+                plain: true,
+                iconCls: "icon-ok",
+                handler: function () {
+                    //保存流水数据
+                    var snsObj = {};
+                    //获取所选行的数据
+                    var selRow = $('#eaf_rule_grid').datagrid('getSelected');
+                    //获取所选行的ID
+                    var selRowId = selRow.EAF_CONTENT
+                    if (!selRowId) {
+                        //赋值一个，这个是我给的假的，所以只能添加一条流水
+                        var selRowId = "";
+                        for (var i = 0; i < 32; i++) {
+                            selRowId += Math.floor(Math.random() * 10)
+                        }
+                        snsObj.EAF_ID = selRowId;
+                        snsObj.EAF_INIT = $("#water_grid_init").val()
+                        snsObj.EAF_LENGTH = $("#water_grid_length").val()
+                        snsObj.EAF_STEP = $("#water_grid_step").val()
+                        snsObj.EAF_LAST = $("#water_grid_last").val()
+                        dataDgDataNew["SNS"].push(snsObj);
+                        snsObj = {}
+                    }
+                    $("#rule_water_grid").dialog('close')
+                }
+            }]
+    })
+})
 /**
  * 获取表格数据
  * @param parentData  传入的主数据
@@ -167,85 +274,6 @@ function onChangeHandeler(newValue, oldValue) {
     selRow.EAF_CONTENT = '';
     $('#eaf_rule_grid').datagrid('beginEdit', selRowIndex);
 }
-/**
- * 格式化类型下拉框
- * @param value  为所选值的ID
- * @returns {*}  
- */
-function productFormatter(value) {
-    for (var i = 0; i < products.length; i++) {
-        if (products[i].productid == value) return products[i].name;
-    }
-    return value;
-}
-// **暂留** if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
-/**
- *  格式化引用属性下拉框
- * @param value  为所选值的ID
- * @param row    表格中所选行的数据对象
- * @param index  表格中所选行的索引
- * @returns {*}
- */
-function productsAttrFormatter(value, row, index) {
-    //获取引用属性的下拉框数据
-    getProductsAttr(attrs);
-    //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
-    if (row.EAF_TYPE == 2) {
-        for (var i = 0; i < productsAttr.length; i++) {
-            if (productsAttr[i].id == value) return productsAttr[i].text;
-        }
-    }
-    return value;
-}
-$("#rule_water_grid").dialog({
-    title: eaf.getLabel('eaf_rule_datagridWater'),
-    width: 300,
-    height: 200,
-    buttons: [
-        {
-            text: eaf.getLabel('eaf_rule_datagridReset'),
-            plain: true,
-            iconCls: "icon-reload",
-            handler: function () {
-                alert("我点击了流水的reset键！")
-            }
-        },
-        {
-            text: eaf.getLabel('eaf_rule_datagridOk'),
-            plain: true,
-            iconCls: "icon-ok",
-            handler: function () {
-                //保存流水数据
-                var snsObj = {};
-                //获取所选行的数据
-                var selRow = $('#eaf_rule_grid').datagrid('getSelected');
-                //获取所选行的ID
-                var selRowId = selRow.EAF_CONTENT
-                if (!selRowId) {
-                    //赋值一个，这个是我给的假的，所以只能添加一条流水
-                    var selRowId = "";
-                    for (var i = 0; i < 32; i++) {
-                        selRowId += Math.floor(Math.random() * 10)
-                    }
-                    snsObj.EAF_ID = selRowId;
-                    snsObj.EAF_INIT = $("#water_grid_init").val()
-                    snsObj.EAF_LENGTH = $("#water_grid_length").val()
-                    snsObj.EAF_STEP = $("#water_grid_step").val()
-                    snsObj.EAF_LAST = $("#water_grid_last").val()
-                    dataDgDataNew["SNS"].push(snsObj);
-                    snsObj = {}
-                }
-                $("#rule_water_grid").dialog('close')
-            }
-        }, {
-            text: eaf.getLabel('eaf_rule_datagridCancel'),
-            plain: true,
-            iconCls: "icon-cancel",
-            handler: function () {
-                $("#rule_water_grid").dialog('close')
-            }
-        }]
-})
 //打开流水窗口并且加载数据
 function openDialogHandeler() {
     $('#rule_water_grid').dialog('open');
@@ -322,74 +350,6 @@ function onBeforeEditHandeler(rowIndex, rowData) {
         }
     }
 }
-$(function () {
-    //获取eaf_bornStyle_form下拉框
-    $("#eaf_bornStyle_form").combobox({
-        panelHeight:42,
-        valueField:'label',
-        textField: 'value',
-        data: [{
-            label: '0',
-            value: eaf.getLabel('eaf_rule_auto'),
-            selected:true
-        },{
-            label: '1',
-            value: eaf.getLabel('eaf_rule_manual')
-        }]
-    })
-    //获取表格数据
-    getDgData(parentData);
-    //最后点击的索引
-    var lastIndex;
-    $('#eaf_rule_grid').datagrid({
-        onBeforeEdit: onBeforeEditHandeler,
-        striped: true,
-        toolbar: [{
-            text: eaf.getLabel('eaf_rule_datagridAdd'),
-            iconCls: 'icon-add',
-            handler: function () {
-                $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
-                $('#eaf_rule_grid').datagrid('appendRow', {
-                    EAF_NAME: '',
-                    EAF_TYPE: '0',
-                    EAF_ORDER: '1',
-                    EAF_CONTENT: ''
-                });
-                lastIndex = $('#eaf_rule_grid').datagrid('getRows').length - 1;
-                $('#eaf_rule_grid').datagrid('selectRow', lastIndex);
-                $('#eaf_rule_grid').datagrid('beginEdit', lastIndex);
-            }
-        }, '-', {
-            text: eaf.getLabel('eaf_rule_datagridRemove'),
-            iconCls: 'icon-remove',
-            handler: function () {
-                //获取所选行的数据
-                var row = $('#eaf_rule_grid').datagrid('getSelected');
-                dataDgDelete.push(row.EAF_ID)
-                if (row) {
-                    //获取所选行的索引
-                    var index = $('#eaf_rule_grid').datagrid('getRowIndex', row);
-                    $('#eaf_rule_grid').datagrid('deleteRow', index);
-                }
-            }
-        }],
-        onBeforeLoad: function () {
-            $(this).datagrid('rejectChanges');
-        },
-        onClickRow: function (rowIndex, row) {
-            if (lastIndex != rowIndex) {
-                $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
-                $('#eaf_rule_grid').datagrid('beginEdit', rowIndex);
-            }
-            lastIndex = rowIndex;
-        },
-        //表格样式
-        columns: dataGridColumn,
-        //表格数据
-        data: dataDgData
-    });
-    $.parser.parse();
-})
 function getResult() {
     //获取列表中的“规则名称”
     dataDgDataNew["MAIN"]["EAF_NAME"] = $("#eaf_ruleName_form").val();
@@ -413,6 +373,4 @@ function getResult() {
     var selRowIndex = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
     $('#eaf_rule_grid').datagrid('endEdit', selRowIndex);
     dataDgDataNew["SECTIONS"] = $('#eaf_rule_grid').datagrid("getData");
-    var msg=eaf.getLabel('eaf_rule_water');
-    console.log(msg)
 }
