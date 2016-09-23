@@ -7,7 +7,7 @@
 //当KEY为"SECTIONS"时值为一个数组，此数组中的每一项为一个对象，每个对象为表格中每一行的数据，其中的KEY为"EAF_NAME"（名称），"EAF_TYPE"（类型），"EAF_ORDER"（排序）。"EAF_CONTENT"（内容）(*接下*)
 //（*接上*）"EAF_CONTENT"（内容）其中有三种值，当"EAF_TYPE"为0时候，"EAF_CONTENT"为string,当"EAF_TYPE"为1时候，"EAF_CONTENT"为parentData["SNS"].EAF_ID（流水表格ID）,当"EAF_TYPE"为2时候，"EAF_CONTENT"为类ID（引用属性ID）
 //当KEY为"SNS"时值为一个数组，此数组中的每一项为一个对象，每个对象为当表格为流水的时候流水表格的数据，其中的KEY"EAF_ID"与parentData["SECTIONS"]["EAF_CONTENT"]的值相等，其中KEY为"EAF_INIT"（初始值），"EAF_LENGTH"（长度），"EAF_STEP"（步长），"EAF_LAST"（最后流水）
-var parentData = {
+/*var parentData = {
     "MAIN": {
         "EAF_ID": "38D2D1829CEB35B1827D36C6186A157A",
         "EAF_WHENPUBLISH": "1",
@@ -60,11 +60,20 @@ var parentData = {
             "EAF_LAST": 100,
         }
     ]
-};
+};*/
 //获取类ID
 var clsid = eaf.getUrlParam('clsid');
 //表单界面id
 var uiid = eaf.getUrlParam('uiid');
+//暂时无用
+var coderule= eaf.getUrlParam('coderule');
+debugger;//1
+console.log(coderule)
+//获取总数据列表
+//var parent = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetEncodingRule')+"&ruleId=38D2D1829CEB35B1827D36C6186A157A");
+var parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:'38D2D1829CEB35B1827D36C6186A157A'}).result
+//var parent = eaf.ajaxGet(eaf.getObjsToFrameUrl('AccessCtrl', 'GetOperList'));
+console.log(parentData)
 //获取属性列表
 var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsid + '&uiid=' + uiid);
 //类型为引用属性时的下拉框数据
@@ -90,7 +99,7 @@ var products = [
 ];
 //表格样式
 var dataGridColumn = [[
-    {field: 'EAF_NAME', title: eaf.getLabel('eaf_rule_datagridName'), width: 136, align: 'center', editor: 'text',},
+    {field: 'EAF_NAME', title: eaf.getLabel('eaf_rule_datagridName'), width: 136, align: 'center', editor: 'text'},
     {
         field: 'EAF_TYPE', title: eaf.getLabel('eaf_rule_datagridType'), width: 143, align: 'center', formatter: function(value){
         for (var i = 0; i < products.length; i++) {
@@ -351,6 +360,8 @@ function onBeforeEditHandeler(rowIndex, rowData) {
     }
 }
 function getResult() {
+    //生成EAF_ID
+    dataDgDataNew["MAIN"]["EAF_ID"] = "38D2D1829CEB35B1827D36C6186A157A"       //eaf.guid();
     //获取列表中的“规则名称”
     dataDgDataNew["MAIN"]["EAF_NAME"] = $("#eaf_ruleName_form").val();
     //获取列表中的“生成方式”
@@ -372,5 +383,31 @@ function getResult() {
     //获取所选行的索引
     var selRowIndex = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
     $('#eaf_rule_grid').datagrid('endEdit', selRowIndex);
-    dataDgDataNew["SECTIONS"] = $('#eaf_rule_grid').datagrid("getData");
+    debugger;//1
+    dataDgDataNew["SECTIONS"] = $('#eaf_rule_grid').datagrid("getData").rows;
+    console.log(dataDgDataNew["SECTIONS"])
+    /*var hashId = eaf.guid();
+     var coderule= eaf.getUrlParam('coderule');
+     console.log(hashId+"hashId")
+     console.log(coderule)*/
+
+    //ajax保存数据
+    $.ajax({
+        type: "POST",
+        url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
+        async: false,
+        dataType: "json",
+        data:dataDgDataNew,
+        success: function () {
+            /* //清空数据列表
+             hashDataDgOld = {};
+             //清空数据列表
+             hashDataDgNew = {};
+             result.flag=true;
+             result.inform=eaf.getLabel("eaf_acm_inform");
+             result.state=eaf.getLabel("eaf_acm_updataSuccess");
+             loadDataPower(powerPData, modelId)*/
+        }
+    });
+
 }

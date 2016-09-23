@@ -21,7 +21,7 @@
         </div>
         <div style="padding:5px;">
             <label for="eaf_example_form" style="margin-left:50px;width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_codeSample")%>:</label>
-            <input id="eaf_example_form" class="easyui-validatebox" type="text" style="width:180px">
+            <input id="eaf_example_form" class="easyui-validatebox" type="text" readonly="readonly" style="width:180px;">
         </div>
     </form>
     <div class="easyui-panel" style="width:585px;height:250px;">
@@ -33,7 +33,7 @@
             <div style="margin-top:7px">&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_star")%>:<input id="water_grid_init" type="text" style="text-align:center"></div>
             <div style="margin-top:7px">&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_length")%>:<input id="water_grid_length" type="text"  style="text-align:center"></div>
             <div style="margin-top:7px">&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_step")%>:<input id="water_grid_step" type="text"  style="text-align:center"></div>
-            <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_end")%>:<input id="water_grid_last" type="text"  style="text-align:center"></div>
+            <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_end")%>:<input id="water_grid_last" type="text"  readonly="readonly" style="text-align:center"></div>
         </form>
     </div>
 <script type="text/javascript" src="EncodingRuleForm.js"></script>
