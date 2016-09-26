@@ -61,21 +61,28 @@
         }
     ]
 };*/
-//获取类ID
-var clsid = eaf.getUrlParam('clsid');
+//类元模型ID
+var clsId=eaf.getUrlParam('clsid');
 //表单界面id
 var uiid = eaf.getUrlParam('uiid');
 //暂时无用
 var coderule= eaf.getUrlParam('coderule');
+
+var dataId = eaf.getUrlParam('dataid');
+//eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).a = clsId
+//alert(eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).a)
 debugger;//1
-console.log(coderule)
+if(!dataId){
+    dataId = eaf.guid();
+}
+
 //获取总数据列表
 //var parent = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetEncodingRule')+"&ruleId=38D2D1829CEB35B1827D36C6186A157A");
-var parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:'38D2D1829CEB35B1827D36C6186A157A'}).result
+var parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result
 //var parent = eaf.ajaxGet(eaf.getObjsToFrameUrl('AccessCtrl', 'GetOperList'));
 console.log(parentData)
 //获取属性列表
-var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsid + '&uiid=' + uiid);
+var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiid);
 //类型为引用属性时的下拉框数据
 var productsAttr = [];
 //获取表格数据
@@ -255,14 +262,17 @@ var dataGridColumn = [[
 function getDgData(parentData) {
     //创建一个新的临时对象
     var obj = {};
-    for (var i = 0; i < parentData["SECTIONS"].length; i++) {
-        for (var key in parentData["SECTIONS"][i]) {
-            obj[key] = parentData["SECTIONS"][i][key]
+    debugger;//2
+    if(parentData) {
+        for (var i = 0; i < parentData["SECTIONS"].length; i++) {
+            for (var key in parentData["SECTIONS"][i]) {
+                obj[key] = parentData["SECTIONS"][i][key]
+            }
+            dataDgData.push(obj)
+            obj = {};
         }
-        dataDgData.push(obj)
-        obj = {};
+        return dataDgData;
     }
-    return dataDgData;
 }
 /**
  * “动态下拉框”改变的时候触发
@@ -360,12 +370,20 @@ function onBeforeEditHandeler(rowIndex, rowData) {
     }
 }
 function getResult() {
-    //生成EAF_ID
-    dataDgDataNew["MAIN"]["EAF_ID"] = "38D2D1829CEB35B1827D36C6186A157A"       //eaf.guid();
+    if(!dataDgDataNew["MAIN"]["EAF_ID"]){
+        //生成EAF_ID
+        dataDgDataNew["MAIN"]["EAF_ID"]=dataId;
+    }
+    //创建临时ID，用于赋值给SECTIONS下的EAF_MID
+    var interimId=dataDgDataNew["MAIN"]["EAF_ID"]
+    //赋值属性ID
+    dataDgDataNew["MAIN"]["EAF_ATTRID"] = coderule
     //获取列表中的“规则名称”
     dataDgDataNew["MAIN"]["EAF_NAME"] = $("#eaf_ruleName_form").val();
     //获取列表中的“生成方式”
     dataDgDataNew["MAIN"]["EAF_WAY"] = $("#eaf_bornStyle_form").combobox("getValue");
+    //设置一个空的编码样例
+    dataDgDataNew["MAIN"]["EAF_SAMPLE"] = "";
     //判断并获取列表中的“是否为主编码”
     if ($("#eaf_mainCode_form").is(':checked')) {
         dataDgDataNew["MAIN"]["EAF_ISMAIN"] = 1;
@@ -385,6 +403,10 @@ function getResult() {
     $('#eaf_rule_grid').datagrid('endEdit', selRowIndex);
     debugger;//1
     dataDgDataNew["SECTIONS"] = $('#eaf_rule_grid').datagrid("getData").rows;
+    for(var i=0;i<dataDgDataNew["SECTIONS"].length;i++){
+        dataDgDataNew["SECTIONS"][i]["EAF_MID"] = interimId;
+        dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
+    }
     console.log(dataDgDataNew["SECTIONS"])
     /*var hashId = eaf.guid();
      var coderule= eaf.getUrlParam('coderule');
@@ -399,6 +421,7 @@ function getResult() {
         dataType: "json",
         data:dataDgDataNew,
         success: function () {
+            alert("成功")
             /* //清空数据列表
              hashDataDgOld = {};
              //清空数据列表
@@ -409,5 +432,5 @@ function getResult() {
              loadDataPower(powerPData, modelId)*/
         }
     });
-
+    return dataId
 }
