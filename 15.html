@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+       这段代码的功能是当选择表格中“动态下拉框”时（有三中属性），每选择一种属性，其对应行中的“动态编辑器框”也会跟着改变（会变成“文本框”，“按钮”，“下拉框”）
+       ---使用自编码规则
+    -->
+    <meta charset="UTF-8">
+    <title>编码规则</title>
+    <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="themes/icon.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <!--这个easyui.min.js 与 官网上的有不同，只要是公司内部的easyui.min.js就可以-->
+    <script type="text/javascript" src="jquery.easyui.min.js"></script>
+</head>
+<body>
+<table id="ruleGrid" style="width:482px;height:auto" data-options="singleSelect:true,idField:'itemid'">
+</table>
+<div id="ruleWater" closed="true">
+    <form style="margin: 15px 0px 0px 30px">
+        <div style="margin-top:7px"><input id="water_grid_init" type="text" style="text-align:center"></div>
+        <div style="margin-top:7px"><input id="water_grid_length" type="text"  style="text-align:center"></div>
+        <div style="margin-top:7px"><input id="water_grid_step" type="text"  style="text-align:center"></div>
+        <div style="margin-top:7px"><input id="water_grid_last" type="text"  readonly="readonly" style="text-align:center"></div>
+    </form>
+</div>
+</body>
+<script>
+    //类型的下拉框数据
+    var products = [
+        {productid: '0', name: '固定字符串'},
+        {productid: '1', name: '流水'},
+        {productid: '2', name: '引用属性'}
+    ];
+    //类型为引用属性时的下拉框数据
+    var productsAttr = [
+        {id: '0', text: '引用属性1'},
+        {id: '1', text: '引用属性2'}
+    ]
+    //表格数据
+    var dataDgData = [
+        {EAF_TYPE: "0", EAF_CONTENT: ""},
+        {EAF_TYPE: "1", EAF_CONTENT: ""},
+        {EAF_TYPE: "2", EAF_CONTENT: ""}
+    ];
+    //表格样式
+    var dataGridColumn = [[
+        {field: 'EAF_TYPE', title: '动态下拉框', width: 235, align: 'center', formatter: productFormatter, editor: {
+            type: 'combobox',
+            options: {valueField: 'productid',
+                textField: 'name',
+                data: products,
+                onChange:onChangeHandeler,
+                panelHeight: 62}
+        }
+        },
+        {field: 'EAF_CONTENT',
+            title: '动态编辑器框',
+            width: 235,
+            align: 'center',
+            formatter: productsAttrFormatter,
+            editor: {type: 'text'}
+        }
+    ]];
+    /**
+     * “动态下拉框”改变的时候触发
+     * @param newValue   改变后动态下拉框的数据ID
+     * @param oldValue   改变前动态下拉框的数据ID
+     */
+    function onChangeHandeler(newValue,oldValue) {
+        //初次点击时候，oldValue为空，直接返回
+        if(oldValue==''){
+            return;
+        }
+        //获取“动态下拉框”改变前的行数据
+        var selrow = $('#ruleGrid').datagrid('getSelected');
+        //行的索引
+        var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
+        $('#ruleGrid').datagrid('endEdit',selrowindex);
+        //非初次点击，直接清空动态编辑器框中的值
+        selrow.EAF_CONTENT='';
+        $('#ruleGrid').datagrid('beginEdit',selrowindex);
+    }
+    //渲染“动态下拉框”
+    function productFormatter(value) {
+        for (var i = 0; i < products.length; i++) {
+            if (products[i].productid == value) return products[i].name;
+        }
+        return value;
+    }
+    //渲染“动态编辑框”
+    function productsAttrFormatter(value, row, index) {
+        //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
+        if (row.EAF_TYPE == 2) {
+            for (var i = 0; i < productsAttr.length; i++) {
+                if (productsAttr[i].id == value) return productsAttr[i].text;
+            }
+        }
+        return value;
+    }
+    function editClick(){
+        /*************************************************************************************/
+        $('#ruleWater').dialog('open');
+        debugger;//1
+        //获取“动态下拉框”改变前的行数据
+        var selrow = $('#ruleGrid').datagrid('getSelected');
+        //行的索引
+        var selrowindex = $('#ruleGrid').datagrid('getRowIndex', selrow);
+        // 得到columns对象
+        var columns = $('#ruleGrid').datagrid("options").columns;
+        // 得到rows对象
+        var rows = $('#ruleGrid').datagrid("getRows"); // 这段代码是// 对某个单元格赋值
+        //rows[selrowindex][columns[0][1].field]=新的值;
+        rows[selrowindex]["EAF_CONTENT"]="adwlihakjbvauvbaubvkDfgheywfb";
+        console.log(rows);
+        /*************************************************************************************/
+    }
+    //编辑表格前触发
+    function onBeforeEditHandeler(rowIndex, rowData){
+        var col = $(this).datagrid('getColumnOption','EAF_CONTENT');
+        // “动态下拉框”的类型
+        var type=$('#ruleGrid').datagrid('getSelected').EAF_TYPE;
+        if(type=='0'){
+            col.editor.type='text';
+        }
+        else if(type=='1'){
+            col.editor.type='textbox';
+            col.editor.options= {
+                icons: [{
+                    iconCls: 'icon-edit',
+                    handler: editClick
+                }],
+                iconWidth: 100
+            };
+        }
+        else if(type=='2'){
+            col.editor.type='combobox';
+            col.editor.options={
+                valueField: 'id',
+                textField: 'text',
+                data: productsAttr,
+                panelHeight: 0
+            }
+        }
+    }
+    $(function () {
+        //最后选中的index
+        var lastIndex;
+        $('#ruleGrid').datagrid({
+            onBeforeEdit: onBeforeEditHandeler,
+            toolbar: [{
+                text: '添加',
+                iconCls: 'icon-add',
+                handler: function () {
+                    //添加时，先结束上一个的编辑
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('appendRow', {
+                        //新增一行的数据
+                        EAF_TYPE: '0',
+                        EAF_CONTENT: ''
+                    });
+                    lastIndex = $('#ruleGrid').datagrid('getRows').length - 1;
+                    $('#ruleGrid').datagrid('selectRow', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', lastIndex);
+                }
+            }],
+            onClickRow: function (rowIndex, row) {
+                if (lastIndex != rowIndex) {
+                    $('#ruleGrid').datagrid('endEdit', lastIndex);
+                    $('#ruleGrid').datagrid('beginEdit', rowIndex);
+                }
+                lastIndex = rowIndex;
+            },
+            //表格样式
+            columns: dataGridColumn,
+            //表格数据
+            data: dataDgData
+        });
+        $.parser.parse();
+        $("#ruleWater").dialog({
+            title: "流水",
+            width: 300,
+            height: 200,
+            buttons: [
+                {
+                    text: "重置",
+                    plain: true,
+                    iconCls: "icon-reload",
+                    handler: function () {
+                        alert("我点击了流水的reset键！")
+                    }
+                },
+                {
+                    text: "确定",
+                    plain: true,
+                    iconCls: "icon-ok",
+                    handler: function () {
+                        //保存流水数据
+                        var snsObj = {};
+                        //获取所选行的数据
+                        var selRow = $('#eaf_rule_grid').datagrid('getSelected');
+                        //获取所选行的ID
+                        var selRowId = selRow.EAF_CONTENT
+                        if (!selRowId) {
+                            //赋值一个，这个是我给的假的，所以只能添加一条流水
+                            var selRowId = "";
+                            for (var i = 0; i < 32; i++) {
+                                selRowId += Math.floor(Math.random() * 10)
+                            }
+                            snsObj.EAF_ID = selRowId;
+                            snsObj.EAF_INIT = $("#water_grid_init").val()
+                            snsObj.EAF_LENGTH = $("#water_grid_length").val()
+                            snsObj.EAF_STEP = $("#water_grid_step").val()
+                            snsObj.EAF_LAST = $("#water_grid_last").val()
+                            dataDgDataNew["SNS"].push(snsObj);
+                            snsObj = {}
+                        }
+                        $("#ruleWater").dialog('close');
+                    }
+                }]
+        })
+    })
+
+</script>
+</html>
