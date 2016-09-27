@@ -22,6 +22,7 @@
         <div style="padding:5px;">
             <label for="eaf_example_form" style="margin-left:50px;width:110px;display:inline-block">&nbsp;&nbsp;&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_codeSample")%>:</label>
             <input id="eaf_example_form" class="easyui-validatebox" type="text" readonly="readonly" style="width:180px;">
+            <a href="#" id="btn" iconCls="icon-search" onclick="codeSample()" style="height:21px;position:relative;top:-2px">easyui</a>
         </div>
     </form>
     <div class="easyui-panel" style="width:585px;height:250px;">

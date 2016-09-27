@@ -88,7 +88,7 @@ var productsAttr = [];
 //获取表格数据
 var dataDgData = [];
 //构造新的表格数据
-var dataDgDataNew = [];
+var dataDgDataNew = {};
 //form表单主数据；
 dataDgDataNew["MAIN"] = {};
 //form表单表格数据
@@ -107,8 +107,7 @@ var products = [
 //表格样式
 var dataGridColumn = [[
     {field: 'EAF_NAME', title: eaf.getLabel('eaf_rule_datagridName'), width: 136, align: 'center', editor: 'text'},
-    {
-        field: 'EAF_TYPE', title: eaf.getLabel('eaf_rule_datagridType'), width: 143, align: 'center', formatter: function(value){
+    {field: 'EAF_TYPE', title: eaf.getLabel('eaf_rule_datagridType'), width: 143, align: 'center', formatter: function(value){
         for (var i = 0; i < products.length; i++) {
             if (products[i].productid == value) return products[i].name;
         }
@@ -124,13 +123,13 @@ var dataGridColumn = [[
         }
     }
     },
-    {
-        field: 'EAF_ORDER', title: eaf.getLabel('eaf_rule_datagridSort'), width: 143, align: 'center', editor: {
+    {field: 'EAF_ORDER', title: eaf.getLabel('eaf_rule_datagridSort'), width: 143, align: 'center', editor: {
         type: 'numberbox'
     }
     },
-    {
-        field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){// **暂留** if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
+    {field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){
+        debugger;//1
+        // **暂留** if (selcombodata[row.EAF_ID])value = selcombodata[row.EAF_ID];
         //获取引用属性的下拉框数据
         getProductsAttr(attrs);
         //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
@@ -138,6 +137,8 @@ var dataGridColumn = [[
             for (var i = 0; i < productsAttr.length; i++) {
                 if (productsAttr[i].id == value) return productsAttr[i].text;
             }
+        }else if(row.EAF_TYPE == 1){
+            return row.EAF_CONTENT
         }
         return value;
     }, editor: {
@@ -187,7 +188,6 @@ var dataGridColumn = [[
             handler: function () {
                 //获取所选行的数据
                 var row = $('#eaf_rule_grid').datagrid('getSelected');
-                dataDgDelete.push(row.EAF_ID)
                 if (row) {
                     //获取所选行的索引
                     var index = $('#eaf_rule_grid').datagrid('getRowIndex', row);
@@ -221,27 +221,30 @@ var dataGridColumn = [[
                 plain: true,
                 iconCls: "icon-reload",
                 handler: function () {
-                    alert("我点击了流水的reset键！")
                 }
             },
             {
                 text: eaf.getLabel('eaf_rule_datagridOk'),
                 plain: true,
                 iconCls: "icon-ok",
-                handler: function () {
+                handler: function (parentData) {
+                    console.log(index)
+                    debugger;//2
                     //保存流水数据
                     var snsObj = {};
                     //获取所选行的数据
                     var selRow = $('#eaf_rule_grid').datagrid('getSelected');
+                    var index = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
+                    //var ed = $('#eaf_rule_grid').datagrid('getEditor', {index:index,field:'EAF_CONTENT'});
+                   // $(ed.target).datagrid('setValue',"123");
+                    var rows = $('#eaf_rule_grid').datagrid("getRows");
                     //获取所选行的ID
-                    var selRowId = selRow.EAF_CONTENT
-                    if (!selRowId) {
-                        //赋值一个，这个是我给的假的，所以只能添加一条流水
-                        var selRowId = "";
-                        for (var i = 0; i < 32; i++) {
-                            selRowId += Math.floor(Math.random() * 10)
-                        }
-                        snsObj.EAF_ID = selRowId;
+                    debugger;//1
+                    var selRowId = selRow.EAF_CONTENT;
+                    //无值
+                    if(!selRow.EAF_CONTENT) {
+                        rows[index]["EAF_CONTENT"] = eaf.guid();
+                        snsObj.EAF_ID = rows[index]["EAF_CONTENT"];
                         snsObj.EAF_INIT = $("#water_grid_init").val()
                         snsObj.EAF_LENGTH = $("#water_grid_length").val()
                         snsObj.EAF_STEP = $("#water_grid_step").val()
@@ -249,10 +252,22 @@ var dataGridColumn = [[
                         dataDgDataNew["SNS"].push(snsObj);
                         snsObj = {}
                     }
+                    $('#eaf_rule_grid').datagrid('updateRow',{
+                        index: index,
+                        row: {
+                            EAF_CONTENT : rows[index]["EAF_CONTENT"],
+                            EAF_NAME : rows[index]["EAF_NAME"],
+                            EAF_ORDER : rows[index]["EAF_ORDER"],
+                            EAF_TYPE : rows[index]["EAF_TYPE"]
+                        }
+                    });
                     $("#rule_water_grid").dialog('close')
                 }
             }]
     })
+    $("#btn").linkbutton({
+    });
+
 })
 /**
  * 获取表格数据
@@ -262,7 +277,7 @@ var dataGridColumn = [[
 function getDgData(parentData) {
     //创建一个新的临时对象
     var obj = {};
-    debugger;//2
+    debugger;//3
     if(parentData) {
         for (var i = 0; i < parentData["SECTIONS"].length; i++) {
             for (var key in parentData["SECTIONS"][i]) {
@@ -369,7 +384,7 @@ function onBeforeEditHandeler(rowIndex, rowData) {
         }
     }
 }
-function getResult() {
+function upDataCode(){
     if(!dataDgDataNew["MAIN"]["EAF_ID"]){
         //生成EAF_ID
         dataDgDataNew["MAIN"]["EAF_ID"]=dataId;
@@ -401,36 +416,58 @@ function getResult() {
     //获取所选行的索引
     var selRowIndex = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
     $('#eaf_rule_grid').datagrid('endEdit', selRowIndex);
-    debugger;//1
     dataDgDataNew["SECTIONS"] = $('#eaf_rule_grid').datagrid("getData").rows;
     for(var i=0;i<dataDgDataNew["SECTIONS"].length;i++){
         dataDgDataNew["SECTIONS"][i]["EAF_MID"] = interimId;
         dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
-    }
-    console.log(dataDgDataNew["SECTIONS"])
-    /*var hashId = eaf.guid();
-     var coderule= eaf.getUrlParam('coderule');
-     console.log(hashId+"hashId")
-     console.log(coderule)*/
+    };
+    debugger;//1
+    /*dataDgDataNew["MAIN"]=eaf.jsonToStr(dataDgDataNew["MAIN"]);
+     dataDgDataNew["SECTIONS"]=eaf.jsonToStr(dataDgDataNew["SECTIONS"]);
+     dataDgDataNew["SNS"]=eaf.jsonToStr(dataDgDataNew["SNS"]);*/
+    console.log(dataDgDataNew);
+    //dataDgDataNew=JSON.stringify(dataDgDataNew)
+    dataDgDataNew = eaf.jsonToStr(dataDgDataNew);
+    console.log(dataDgDataNew);
+}
 
+
+
+function codeSample(){
+    upDataCode();
+    console.log(dataDgDataNew)
+    debugger;//2
+    //var aa = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GenerateSampleCode'));
+
+    //生成编码样例
+    var codeingSample = eaf.readData('DataModel', 'GenerateSampleCode',{encodingRule:dataDgDataNew}).result;
+    $("#eaf_example_form").val(codeingSample)
+    debugger;//1
+  /*  $.ajax({
+        type: "GET",
+        url: eaf.readData('DataModel', 'GenerateSampleCode'),//eaf.saveObjByIdToFrameUrl('DataModel', 'GenerateSampleCode'),
+        async: false,
+        dataType: "json",
+        data:dataDgDataNew,
+        success: function (data) {
+            debugger;//1
+            $("#eaf_example_form").val(data)
+        }
+    });*/
+}
+function getResult() {
+    upDataCode();
     //ajax保存数据
     $.ajax({
         type: "POST",
         url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
         async: false,
         dataType: "json",
-        data:dataDgDataNew,
+        data:{encodingRule:dataDgDataNew},
         success: function () {
             alert("成功")
-            /* //清空数据列表
-             hashDataDgOld = {};
-             //清空数据列表
-             hashDataDgNew = {};
-             result.flag=true;
-             result.inform=eaf.getLabel("eaf_acm_inform");
-             result.state=eaf.getLabel("eaf_acm_updataSuccess");
-             loadDataPower(powerPData, modelId)*/
         }
     });
+    debugger;//1
     return dataId
 }
