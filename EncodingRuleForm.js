@@ -221,6 +221,7 @@ var dataGridColumn = [[
                 plain: true,
                 iconCls: "icon-reload",
                 handler: function () {
+                    $("#water_grid_last").val("");
                 }
             },
             {
@@ -228,30 +229,30 @@ var dataGridColumn = [[
                 plain: true,
                 iconCls: "icon-ok",
                 handler: function (parentData) {
-                    console.log(index)
-                    debugger;//2
+                    console.log(parentData)
+                    debugger;//1
                     //保存流水数据
                     var snsObj = {};
                     //获取所选行的数据
                     var selRow = $('#eaf_rule_grid').datagrid('getSelected');
+                    //获取所选行的索引
                     var index = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
                     //var ed = $('#eaf_rule_grid').datagrid('getEditor', {index:index,field:'EAF_CONTENT'});
                    // $(ed.target).datagrid('setValue',"123");
                     var rows = $('#eaf_rule_grid').datagrid("getRows");
-                    //获取所选行的ID
-                    debugger;//1
-                    var selRowId = selRow.EAF_CONTENT;
-                    //无值
+                    //无值的话赋值一个新值
                     if(!selRow.EAF_CONTENT) {
                         rows[index]["EAF_CONTENT"] = eaf.guid();
                         snsObj.EAF_ID = rows[index]["EAF_CONTENT"];
-                        snsObj.EAF_INIT = $("#water_grid_init").val()
-                        snsObj.EAF_LENGTH = $("#water_grid_length").val()
-                        snsObj.EAF_STEP = $("#water_grid_step").val()
-                        snsObj.EAF_LAST = $("#water_grid_last").val()
-                        dataDgDataNew["SNS"].push(snsObj);
-                        snsObj = {}
+                    }else{
+                        snsObj.EAF_ID = selRow.EAF_CONTENT;
                     }
+                    snsObj.EAF_INIT = $("#water_grid_init").val();
+                    snsObj.EAF_LENGTH = $("#water_grid_length").val();
+                    snsObj.EAF_STEP = $("#water_grid_step").val();
+                    snsObj.EAF_LAST = $("#water_grid_last").val();
+                    dataDgDataNew["SNS"].push(snsObj);
+                    snsObj = {}
                     $('#eaf_rule_grid').datagrid('updateRow',{
                         index: index,
                         row: {
@@ -266,8 +267,8 @@ var dataGridColumn = [[
             }]
     })
     $("#btn").linkbutton({
+          text:eaf.getLabel('eaf_rule_production'),
     });
-
 })
 /**
  * 获取表格数据
@@ -324,7 +325,7 @@ function openDialogHandeler() {
                 $("#water_grid_init").val(parentData["SNS"][i]["EAF_INIT"]);
                 $("#water_grid_length").val(parentData["SNS"][i]["EAF_LENGTH"]);
                 $("#water_grid_step").val(parentData["SNS"][i]["EAF_STEP"]);
-                $("#water_grid_last").val(parentData["SNS"][i]["EAF_LAST"]);
+                $("#water_grid_last").val("2");//parentData["SNS"][i]["EAF_LAST"]
             }
         }
     }
