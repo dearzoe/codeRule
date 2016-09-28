@@ -30,9 +30,9 @@
     // arg预留参数
     var arg = eaf.getUrlParam('arg');
     // 添加编码规则对象列表
-    var codeUpdataObject;
+    var codeUpdataObject=[];
     // 删除编码规则
-    var codeDelete;
+    var codeDeleteArray=[];
     $(function () {
         //创建参数对象
         var param = {};
@@ -143,18 +143,20 @@
        updateObjects=[];
        deleteObjects=[];
         //ajax保存编码规则数据
-        $.ajax({
-            type: "POST",
-            url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
-            async: false,
-            dataType: "json",
-            data:{encodingRule:codeUpdataObject},
-            success: function () {
-            codeUpdataObject={};
+        for(var i=0;i<codeUpdataObject.length;i++){
+            $.ajax({
+                type: "POST",
+                url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
+                async: false,
+                dataType: "json",
+                data:{encodingRule:codeUpdataObject[i]}
+            });
         }
-        });
         //删除编码规则数据
-        eaf.readData('DataModel', 'DeleteEncodingRule',{id:codeDelete}).result;
+        for(var j=0;j<codeDeleteArray.length;j++){
+            eaf.readData('DataModel', 'DeleteEncodingRule',{id:codeDeleteArray[j]}).result;
+        }
+
 		top.overrideAttrs=window.frames["uie_ifm_rel"].getSaveJson(); 
 		// 是否存在被覆盖的属性
     	var isExistAttrOverride=eaf.readData('DataModel', 'IsExistAttrOverride',{'clsId':objid});

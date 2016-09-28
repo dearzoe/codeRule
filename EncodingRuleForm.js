@@ -94,16 +94,16 @@ var dataGridColumn = [[
             label: '1',
             value: eaf.getLabel('eaf_rule_manual')
         }]
-    })
+    });
     //获取表格数据
     getDgData(parentData);
     //最后点击的索引
     var lastIndex;
     //创建默认排序
-    var orderNumber
-    if(parentData["SECTIONS"]){
-        var length=parentData["SECTIONS"].length
-        orderNumber = parentData["SECTIONS"][length-1]["EAF_ORDER"];
+    var orderNumber;
+    if(parentData && parentData["SECTIONS"].length !== 0){
+        var length=parentData["SECTIONS"].length;
+        orderNumber = parentData["SECTIONS"][length-1]["EAF_ORDER"]+1;
     }else{
         orderNumber = 1;
     }
@@ -194,7 +194,7 @@ var dataGridColumn = [[
                         snsObj.EAF_STEP = $("#water_grid_step").val();
                         snsObj.EAF_LAST = $("#water_grid_last").val();
                         dataDgDataNew["SNS"].push(snsObj);
-                        snsObj = {}
+                        snsObj = {};
                         flag = false;
                     }
 
@@ -207,14 +207,14 @@ var dataGridColumn = [[
                             EAF_TYPE : rows[index]["EAF_TYPE"]
                         }
                     });
-                    $("#rule_water_grid").dialog('close')
+                    $("#rule_water_grid").dialog('close');
                 }
             }]
-    })
+    });
     $("#btn").linkbutton({
           text:eaf.getLabel('eaf_rule_production'),
     });
-})
+});
 /**
  * 获取表格数据
  * @param parentData  传入的主数据
@@ -231,22 +231,21 @@ function getDgData(parentData) {
             $("#eaf_bornPublish_form").prop("checked",true);
         }
         if(parentData["MAIN"]["EAF_WAY"]){
-            $("#eaf_bornStyle_form").combobox("setValue",parentData["MAIN"]["EAF_WAY"])
+            $("#eaf_bornStyle_form").combobox("setValue",parentData["MAIN"]["EAF_WAY"]);
         }
         if(parentData["MAIN"]["EAF_NAME"]){
-            $("#eaf_ruleName_form").val(parentData["MAIN"]["EAF_NAME"])
+            $("#eaf_ruleName_form").val(parentData["MAIN"]["EAF_NAME"]);
         }
         for (var i = 0; i < parentData["SECTIONS"].length; i++) {
             for (var key in parentData["SECTIONS"][i]) {
-                obj[key] = parentData["SECTIONS"][i][key]
+                obj[key] = parentData["SECTIONS"][i][key];
             }
-            dataDgData.push(obj)
+            dataDgData.push(obj);
             obj = {};
         }
         return dataDgData;
     }
 }
-
 /**
  * “动态下拉框”改变的时候触发
  * @param newValue   改变后动态下拉框的数据ID
@@ -254,7 +253,7 @@ function getDgData(parentData) {
  */
 function onChangeHandeler(newValue, oldValue) {
     //初次点击时候，oldValue为空，直接返回
-    if (oldValue == '') {
+    if (oldValue === '') {
         return;
     }
     //获取“动态下拉框”改变前的行数据
@@ -304,7 +303,7 @@ function getProductsAttr(attrs) {
             curProductsAttr = {};
         }
     }
-    return productsAttr
+    return productsAttr;
 }
 //关闭流水窗口的时候清空数据
 function closeDialogHandeler() {
@@ -317,7 +316,7 @@ function closeDialogHandeler() {
         }
     });
 }
-closeDialogHandeler()
+closeDialogHandeler();
 /**
  * 在编辑之前编译
  * @param rowIndex 所选行的索引
@@ -348,7 +347,7 @@ function onBeforeEditHandeler(rowIndex, rowData) {
             textField: 'text',
             data: productsAttr,
             panelHeight: 0
-        }
+        };
     }
 }
 /**
@@ -357,15 +356,15 @@ function onBeforeEditHandeler(rowIndex, rowData) {
  */
 function upDataCode(){
     if($.type(dataDgDataNew) == "string"){
-        return dataDgDataNew
+        return dataDgDataNew;
     }else if(!dataDgDataNew["MAIN"]["EAF_ID"]){
         //生成EAF_ID
         dataDgDataNew["MAIN"]["EAF_ID"]=dataId;
     }
     //创建临时ID，用于赋值给SECTIONS下的EAF_MID
-    var interimId=dataDgDataNew["MAIN"]["EAF_ID"]
+    var interimId=dataDgDataNew["MAIN"]["EAF_ID"];
     //赋值属性ID
-    dataDgDataNew["MAIN"]["EAF_ATTRID"] = coderule
+    dataDgDataNew["MAIN"]["EAF_ATTRID"] = coderule;
     //获取列表中的“规则名称”
     dataDgDataNew["MAIN"]["EAF_NAME"] = $("#eaf_ruleName_form").val();
     //获取列表中的“生成方式”
@@ -395,9 +394,7 @@ function upDataCode(){
         dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
     };
     dataDgDataNew = JSON.stringify(dataDgDataNew);
-    //dataDgDataNew = eaf.jsonToStr(dataDgDataNew);
-    console.log(dataDgDataNew)
-    return dataDgDataNew
+    return dataDgDataNew;
 }
 //生成编码样例
 function codeSample(){
@@ -412,6 +409,7 @@ function getResult() {
     upDataCode();
     //获取最新的编码字符串
      upDataCode();
-     eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject = dataDgDataNew;
-     return dataId
+     eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject.push(dataDgDataNew);
+     dataDgDataNew={};
+     return dataId;
 }

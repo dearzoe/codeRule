@@ -58,6 +58,8 @@
     var resId;
     // 资源类id
     var resClsId = 'DF7013366ECCB153161F6492222EC0AE';
+    // arg预留参数
+    var arg = eaf.getUrlParam('arg');
     $(function () {
         resId = eaf.getUrlParam('id');
         // 资源对象
@@ -67,7 +69,7 @@
         }
         //关联类初始化
         $('#EAF_RELATECLSID').combotree({
-            url: eaf.getComboTreeAllByClsUrl('51D9A19482AFE43B895AEA9BA76CEFCD'), //类元模型ID
+            url: eaf.getComboTreeAllByClsUrl('51D9A19482AFE43B895AEA9BA76CEFCD') + '&arg=' + arg, //类元模型ID
             onChange: function (newValue, oldValue) {
                 var cid = newValue;
                 if (!cid) { cid = resobj.EAF_RELATECLSID; }
