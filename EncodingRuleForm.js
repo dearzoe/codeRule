@@ -4,13 +4,13 @@
 //类元模型ID
 var clsId=eaf.getUrlParam('clsid');
 //表单界面id
-var uiid = eaf.getUrlParam('uiid');
+var uiId = eaf.getUrlParam('uiid');
 //属性ID
-var coderule= eaf.getUrlParam('coderule');
+var codeRule= eaf.getUrlParam('coderule');
 //获取编码规则表格的ID
 var dataId = eaf.getUrlParam('dataid');
 //获取属性列表
-var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiid);
+var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiId);
 //类型为引用属性时的下拉框数据
 var productsAttr = [];
 //获取表格数据
@@ -166,6 +166,9 @@ var dataGridColumn = [[
                 iconCls: "icon-reload",
                 handler: function () {
                     $("#water_grid_last").val("");
+                    //获取行的数据
+                    var rows = $('#eaf_rule_grid').datagrid("getRows");
+                    eaf.readData('DataModel', 'ResetSn',{id:rows[0]["EAF_CONTENT"]}).result;
                 }
             },
             {
@@ -364,7 +367,7 @@ function upDataCode(){
     //创建临时ID，用于赋值给SECTIONS下的EAF_MID
     var interimId=dataDgDataNew["MAIN"]["EAF_ID"];
     //赋值属性ID
-    dataDgDataNew["MAIN"]["EAF_ATTRID"] = coderule;
+    dataDgDataNew["MAIN"]["EAF_ATTRID"] = codeRule;
     //获取列表中的“规则名称”
     dataDgDataNew["MAIN"]["EAF_NAME"] = $("#eaf_ruleName_form").val();
     //获取列表中的“生成方式”
