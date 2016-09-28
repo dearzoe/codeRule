@@ -19,6 +19,8 @@
         clsid = eaf.getUrlParam('clsid');
         uiid = eaf.getUrlParam('uiid');
         fromclassid=eaf.getUrlParam('fromclsid');
+        var beforeEditCode;
+        var endEditCode;
         //加载数据选项
         var opt = {};
         //获取属性列表
@@ -47,16 +49,25 @@
             opt.queryParams = { clsid: frompclsid };
         }
         var datagrid = objectlist.datagrid(opt);
+        debugger;//1
         objectlist.datagrid({
         	onLoadSuccess:function(data){
         		dataCache=$.extend(true, [], data.rows);
-        	}       	
+        	},
+            onBeforeEdit:function(index,row){
+                 beforeEditCode = row["EAF_ENCODERULE"];
+            },
+            onAfterEdit:function(index, row, changes){
+                 endEditCode = row["EAF_ENCODERULE"];
+                 if(beforeEditCode && beforeEditCode !== endEditCode){
+                  parent.codeDelete=beforeEditCode;
+               }
+            }
         });
         //创建查询表单
         if (eafdatagrid.getGridConfig() && eafdatagrid.getGridConfig().EAF_ISSEARCH == "Y") { }
         else
             var searchpanel = ctl.createSearchForm(objectlist, attrs);
-
         //增加树配置
         //$('.datagrid-toolbar table tr').append('<td><input type="checkbox" value="Y">树配置</td>');
     });
@@ -123,7 +134,7 @@
     		//赋值新的父属性id、类id改为当前类id，去掉属性id
         	adddata.EAF_PATTRID=adddata.EAF_ID;
         	adddata.EAF_CLASSID=fromclassid;
-        	delete adddata.EAF_ID;
+        	adddata.EAF_ID=eaf.guid();
         	
         	var relData={}
         	relData.overrideAttr=eaf.jsonToStr(adddata);

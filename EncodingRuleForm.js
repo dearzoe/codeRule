@@ -23,18 +23,20 @@ dataDgDataNew["MAIN"] = {};
 dataDgDataNew["SECTIONS"] = [];
 //form表单流水数据
 dataDgDataNew["SNS"] = [];
-$(function(){
-    if(!dataId){
-        dataId = eaf.guid();
-    }
-//获取总数据列表 为一个对象，
+//总数据列表
 // 当KEY为"MAIN"时值为一个对象，此对象中是KEY为"EAF_NAME"（规则名称），"EAF_ISMAIN"（是否为主编码），"EAF_WAY"（生成方式），"EAF_WHENPUBLISH"（是否在发布时生成），"EAF_SAMPLE"（编码样例）。
 //当KEY为"SECTIONS"时值为一个数组，此数组中的每一项为一个对象，每个对象为表格中每一行的数据，其中的KEY为"EAF_NAME"（名称），"EAF_TYPE"（类型），"EAF_ORDER"（排序）。"EAF_CONTENT"（内容）(*接下*)
 //（*接上*）"EAF_CONTENT"（内容）其中有三种值，当"EAF_TYPE"为0时候，"EAF_CONTENT"为string,当"EAF_TYPE"为1时候，"EAF_CONTENT"为parentData["SNS"].EAF_ID（流水表格ID）,当"EAF_TYPE"为2时候，"EAF_CONTENT"为类ID（引用属性ID）
 //当KEY为"SNS"时值为一个数组，此数组中的每一项为一个对象，每个对象为当表格为流水的时候流水表格的数据，其中的KEY"EAF_ID"与parentData["SECTIONS"]["EAF_CONTENT"]的值相等，其中KEY为"EAF_INIT"（初始值），"EAF_LENGTH"（长度），"EAF_STEP"（步长），"EAF_LAST"（最后流水）
-var parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
-    debugger;//1
-    console.log(parentData)
+var parentData;
+$(function(){
+    //流水保存
+    var flag = true;
+    if(!dataId){
+        dataId = eaf.guid();
+    }
+//获取总数据列表 为一个对象，
+parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
 //类型的下拉框数据
 var products = [
     {productid: '0', name: eaf.getLabel('eaf_rule_fixString')},
@@ -93,9 +95,18 @@ var dataGridColumn = [[
             value: eaf.getLabel('eaf_rule_manual')
         }]
     })
+    //获取表格数据
+    getDgData(parentData);
     //最后点击的索引
     var lastIndex;
-    var orderNumber=1;
+    //创建默认排序
+    var orderNumber
+    if(parentData["SECTIONS"]){
+        var length=parentData["SECTIONS"].length
+        orderNumber = parentData["SECTIONS"][length-1]["EAF_ORDER"];
+    }else{
+        orderNumber = 1;
+    }
     $('#eaf_rule_grid').datagrid({
         onBeforeEdit: onBeforeEditHandeler,
         striped: true,
@@ -143,11 +154,7 @@ var dataGridColumn = [[
         //表格数据
         data: dataDgData
     });
-    /****************************************************/
     $.parser.parse();
-    /****************************************************/
-    //获取表格数据
-    getDgData(parentData);
     $("#rule_water_grid").dialog({
         title: eaf.getLabel('eaf_rule_water'),
         width: 300,
@@ -165,7 +172,7 @@ var dataGridColumn = [[
                 text: eaf.getLabel('eaf_rule_datagridOk'),
                 plain: true,
                 iconCls: "icon-ok",
-                handler: function (parentData) {
+                handler: function () {
                     //保存流水数据
                     var snsObj = {};
                     //获取所选行的数据
@@ -174,19 +181,23 @@ var dataGridColumn = [[
                     var index = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
                     //获取行的数据
                     var rows = $('#eaf_rule_grid').datagrid("getRows");
-                    //无值的话赋值一个新值
-                    if(!selRow.EAF_CONTENT) {
-                        rows[index]["EAF_CONTENT"] = eaf.guid();
-                        snsObj.EAF_ID = rows[index]["EAF_CONTENT"];
-                    }else{
-                        snsObj.EAF_ID = selRow.EAF_CONTENT;
+                    if(flag){
+                        //无值的话赋值一个新值
+                        if(!selRow.EAF_CONTENT) {
+                            rows[index]["EAF_CONTENT"] = eaf.guid();
+                            snsObj.EAF_ID = rows[index]["EAF_CONTENT"];
+                        }else{
+                            snsObj.EAF_ID = selRow.EAF_CONTENT;
+                        }
+                        snsObj.EAF_INIT = $("#water_grid_init").val();
+                        snsObj.EAF_LENGTH = $("#water_grid_length").val();
+                        snsObj.EAF_STEP = $("#water_grid_step").val();
+                        snsObj.EAF_LAST = $("#water_grid_last").val();
+                        dataDgDataNew["SNS"].push(snsObj);
+                        snsObj = {}
+                        flag = false;
                     }
-                    snsObj.EAF_INIT = $("#water_grid_init").val();
-                    snsObj.EAF_LENGTH = $("#water_grid_length").val();
-                    snsObj.EAF_STEP = $("#water_grid_step").val();
-                    snsObj.EAF_LAST = $("#water_grid_last").val();
-                    dataDgDataNew["SNS"].push(snsObj);
-                    snsObj = {}
+
                     $('#eaf_rule_grid').datagrid('updateRow',{
                         index: index,
                         row: {
@@ -213,7 +224,6 @@ function getDgData(parentData) {
     //创建一个新的临时对象
     var obj = {};
     if(parentData) {
-        debugger;//1
         if(parentData["MAIN"]["EAF_ISMAIN"] == 1){
             $("#eaf_mainCode_form").prop("checked",true);
         }
@@ -272,7 +282,7 @@ function openDialogHandeler() {
                 $("#water_grid_init").val(parentData["SNS"][i]["EAF_INIT"]);
                 $("#water_grid_length").val(parentData["SNS"][i]["EAF_LENGTH"]);
                 $("#water_grid_step").val(parentData["SNS"][i]["EAF_STEP"]);
-                $("#water_grid_last").val("2");//parentData["SNS"][i]["EAF_LAST"]
+                $("#water_grid_last").val(parentData["SNS"][i]["EAF_LAST"]);
             }
         }
     }
@@ -280,7 +290,7 @@ function openDialogHandeler() {
 /**
  * 获取类型为引用属性时的下拉数据
  * @param attrs  属性列表
- * @returns {Array}
+ * @returns {Array} 返回值分两层，第一层为索引所对应的是对象，每个对象中有两个KEY分别为id和text
  */
 function getProductsAttr(attrs) {
     //创建一个临时对象储存每个下拉属性
@@ -346,7 +356,6 @@ function onBeforeEditHandeler(rowIndex, rowData) {
  * @returns {{}} 返回为JSON字符串
  */
 function upDataCode(){
-    //debugger;//1
     if($.type(dataDgDataNew) == "string"){
         return dataDgDataNew
     }else if(!dataDgDataNew["MAIN"]["EAF_ID"]){
@@ -388,7 +397,6 @@ function upDataCode(){
     dataDgDataNew = JSON.stringify(dataDgDataNew);
     //dataDgDataNew = eaf.jsonToStr(dataDgDataNew);
     console.log(dataDgDataNew)
-    debugger;//1
     return dataDgDataNew
 }
 //生成编码样例
@@ -399,25 +407,11 @@ function codeSample(){
     $("#eaf_example_form").val(codeingSample)
 }
 //点击确定保存数据
-function getResult(){
+function getResult() {
+    //获取最新的编码字符串
     upDataCode();
-    debugger;//1
-    //todo -- begin
-    /*//获取最新的编码字符串
-    upDataCode();
-    eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject = dataDgDataNew;
-    return dataId*/
-    //todo -- end
-    $.ajax({
-        type: "POST",
-        url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
-        async: false,
-        dataType: "json",
-        data:{encodingRule:dataDgDataNew},
-        success: function () {
-            alert("成功")
-            dataDgDataNew={};
-        }
-    });
-    return dataId
+    //获取最新的编码字符串
+     upDataCode();
+     eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject = dataDgDataNew;
+     return dataId
 }
