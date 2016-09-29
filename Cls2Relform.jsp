@@ -34,6 +34,7 @@
     // 删除编码规则
     var codeDeleteArray=[];
     $(function () {
+    console.log(codeUpdataObject)
         //创建参数对象
         var param = {};
         //获取属性组
@@ -138,6 +139,7 @@
     }
     //保存表单数据
     function uie_frm_save() {
+    debugger;//1
        eaf.saveObjects(resclsid , insertObjects ,  updateObjects , eaf.jsonToStr(deleteObjects));
        insertObjects=[];
        updateObjects=[];
@@ -149,7 +151,7 @@
                 url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
                 async: false,
                 dataType: "json",
-                data:{encodingRule:codeUpdataObject[i]}
+                data:{encodingRule:eaf.jsonToStr(codeUpdataObject[i])}
             });
         }
         //删除编码规则数据

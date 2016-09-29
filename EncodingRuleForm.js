@@ -12,7 +12,7 @@ var dataId = eaf.getUrlParam('dataid');
 //获取属性列表
 var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiId);
 //类型为引用属性时的下拉框数据
-var productsAttr = [];
+var productsAttr;
 //获取表格数据
 var dataDgData = [];
 //构造新的表格数据
@@ -37,6 +37,7 @@ $(function(){
     }
 //获取总数据列表 为一个对象，
 parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
+    debugger;//1
 //类型的下拉框数据
 var products = [
     {productid: '0', name: eaf.getLabel('eaf_rule_fixString')},
@@ -67,6 +68,7 @@ var dataGridColumn = [[
     }
     },
     {field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){
+        productsAttr=[];
         //获取引用属性的下拉框数据
         getProductsAttr(attrs);
         //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
@@ -114,6 +116,8 @@ var dataGridColumn = [[
             text: eaf.getLabel('eaf_rule_datagridAdd'),
             iconCls: 'icon-add',
             handler: function (e) {
+                //重置流水
+                flag = true;
                 $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
                 $('#eaf_rule_grid').datagrid('appendRow', {
                     EAF_NAME: '',
@@ -176,6 +180,7 @@ var dataGridColumn = [[
                 plain: true,
                 iconCls: "icon-ok",
                 handler: function () {
+                    debugger;//1
                     //保存流水数据
                     var snsObj = {};
                     //获取所选行的数据
@@ -184,7 +189,20 @@ var dataGridColumn = [[
                     var index = $('#eaf_rule_grid').datagrid('getRowIndex', selRow);
                     //获取行的数据
                     var rows = $('#eaf_rule_grid').datagrid("getRows");
+                    //获取所选行的ID
+                    var selRowId = selRow.EAF_CONTENT;
                     if(flag){
+                        /***************************************/
+                        //获得父级页面数据
+                        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+                        if(parentData && parentData["SNS"]){
+                            dataDgDataNew["SNS"]=parentData["SNS"]
+                        }
+                        if(pData.length !== 0){
+                            for(var i=0;i<pData.length;i++){
+                                dataDgDataNew["SNS"]=pData[i]["SNS"];
+                            }
+                        }
                         //无值的话赋值一个新值
                         if(!selRow.EAF_CONTENT) {
                             rows[index]["EAF_CONTENT"] = eaf.guid();
@@ -226,6 +244,37 @@ var dataGridColumn = [[
 function getDgData(parentData) {
     //创建一个新的临时对象
     var obj = {};
+    //获取父级页面数据
+    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject;
+    if(pData.length !== 0){
+        for(var j=0;j<pData.length;j++){
+            //父级页面的每组数据
+            var curPData=pData[j];
+            if(curPData["MAIN"]["EAF_ID"] == dataId){
+                if(curPData["MAIN"]["EAF_ISMAIN"] == 1){
+                    $("#eaf_mainCode_form").prop("checked",true);
+                }
+                if(curPData["MAIN"]["EAF_WHENPUBLISH"] == 1){
+                    $("#eaf_bornPublish_form").prop("checked",true);
+                }
+                if(curPData["MAIN"]["EAF_WAY"]){
+                    $("#eaf_bornStyle_form").combobox("setValue",curPData["MAIN"]["EAF_WAY"]);
+                }
+                if(curPData["MAIN"]["EAF_NAME"]){
+                    $("#eaf_ruleName_form").val(curPData["MAIN"]["EAF_NAME"]);
+                }
+                for (var k = 0; k < curPData["SECTIONS"].length; k++) {
+                    for (var key in curPData["SECTIONS"][k]) {
+                        obj[key] = curPData["SECTIONS"][k][key];
+                    }
+                    dataDgData.push(obj);
+                    obj = {};
+                }
+            }
+        }
+        return dataDgData;
+    }
+    //从数据库中获取
     if(parentData) {
         if(parentData["MAIN"]["EAF_ISMAIN"] == 1){
             $("#eaf_mainCode_form").prop("checked",true);
@@ -246,37 +295,8 @@ function getDgData(parentData) {
             dataDgData.push(obj);
             obj = {};
         }
-
+        return dataDgData;
     }
-    //获取父级页面数据
-    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId))
-    for(var j=0;j<pData.codeUpdataObject.length;j++){
-        //父级页面的每组数据
-        var curPData=pData.codeUpdataObject[j];
-        if(curPData["MAIN"]["EAF_ID"] == parentData["MAIN"]["EAF_ID"]){
-            if(curPData["MAIN"]["EAF_ISMAIN"] == 1){
-                $("#eaf_mainCode_form").prop("checked",true);
-            }
-            if(curPData["MAIN"]["EAF_WHENPUBLISH"] == 1){
-                $("#eaf_bornPublish_form").prop("checked",true);
-            }
-            if(curPData["MAIN"]["EAF_WAY"]){
-                $("#eaf_bornStyle_form").combobox("setValue",curPData["MAIN"]["EAF_WAY"]);
-            }
-            if(curPData["MAIN"]["EAF_NAME"]){
-                $("#eaf_ruleName_form").val(curPData["MAIN"]["EAF_NAME"]);
-            }
-            for (var k = 0; k < curPData["SECTIONS"].length; k++) {
-                for (var key in curPData["SECTIONS"][k]) {
-                    obj[key] = curPData["SECTIONS"][k][key];
-                }
-                dataDgData[0]=obj;
-                obj = {};
-            }
-        }
-    }
-
-    return dataDgData;
 }
 /**
  * “动态下拉框”改变的时候触发
@@ -299,13 +319,12 @@ function onChangeHandeler(newValue, oldValue) {
 }
 //打开流水窗口并且加载数据
 function openDialogHandeler() {
-    dataDgDataNew;
     $('#rule_water_grid').dialog('open');
     //获取所选行的数据
     var selRow = $('#eaf_rule_grid').datagrid('getSelected');
     //获取所选行的ID
     var selRowId = selRow.EAF_CONTENT;
-    if (selRowId) {
+    if(parentData){
         for (var i = 0; i < parentData["SNS"].length; i++) {
             //获取流水列表的ID
             var curId = parentData["SNS"][i].EAF_ID;
@@ -317,13 +336,31 @@ function openDialogHandeler() {
                 $("#water_grid_last").val(parentData["SNS"][i]["EAF_LAST"]);
             }
         }
-        //获得父级页面数据
-        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
-        for(var j=0;j<pData.length;j++){
-            if(pData[j]["SECTIONS"][0]["EAF_CONTENT"] == selRowId){
-                $("#water_grid_init").val(pData[j]["SNS"][0]["EAF_INIT"]);
-                $("#water_grid_length").val(pData[j]["SNS"][0]["EAF_LENGTH"]);
-                $("#water_grid_step").val(pData[j]["SNS"][0]["EAF_STEP"]);
+    }
+//获得父级页面数据
+    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+    for(var j=0;j<pData.length;j++){
+        var curPData=pData[j]["SECTIONS"];
+        for(var k=0;k<curPData.length;k++){
+            if(curPData[k]["EAF_CONTENT"] == selRowId){
+                for(var g=0;g<pData[j]["SNS"].length;g++){
+                    if(pData[j]["SNS"][g]["EAF_ID"] == selRowId){
+                        $("#water_grid_init").val(pData[j]["SNS"][g]["EAF_INIT"]);
+                        $("#water_grid_length").val(pData[j]["SNS"][g]["EAF_LENGTH"]);
+                        $("#water_grid_step").val(pData[j]["SNS"][g]["EAF_STEP"]);
+                    }
+                }
+            }
+        }
+    }
+
+    //获取当前页面缓存
+    if(dataDgDataNew["SNS"]){
+        for(var e=0;e<dataDgDataNew["SNS"].length;e++){
+            if(dataDgDataNew["SNS"][e]["EAF_ID"] == selRowId){
+                $("#water_grid_init").val(dataDgDataNew["SNS"][e]["EAF_INIT"]);
+                $("#water_grid_length").val(dataDgDataNew["SNS"][e]["EAF_LENGTH"]);
+                $("#water_grid_step").val(dataDgDataNew["SNS"][e]["EAF_STEP"]);
             }
         }
     }
@@ -435,6 +472,11 @@ function upDataCode(){
         dataDgDataNew["SECTIONS"][i]["EAF_MID"] = interimId;
         dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
     };
+    for(var j=0;j<dataDgDataNew["SNS"].length;j++){
+        if(!dataDgDataNew["SNS"][j]["EAF_LAST"]){
+            dataDgDataNew["SNS"][j]["EAF_LAST"]="";
+        }
+    }
     return dataDgDataNew;
 }
 //生成编码样例
@@ -446,6 +488,8 @@ function codeSample(){
 }
 //点击确定保存数据
 function getResult() {
+    debugger;//1
+    var flg=true;
     //获取最新的编码字符串
     upDataCode();
     //获得父级页面数据
@@ -453,11 +497,13 @@ function getResult() {
     for(var i in pData){
         if(pData[i]["MAIN"]["EAF_ID"] == dataDgDataNew["MAIN"]["EAF_ID"]){
             pData[i]=dataDgDataNew;
+            flg=false;
         }
     }
-    //获取最新的编码字符串
-     upDataCode();
-     pData.push(dataDgDataNew);
-     dataDgDataNew={};
-     return dataId;
+    if(flg){
+        pData.push(dataDgDataNew);
+    }
+    console.log(JSON.stringify(dataDgDataNew))
+    dataDgDataNew={};
+    return dataId;
 }
