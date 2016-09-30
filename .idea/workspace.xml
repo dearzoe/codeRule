@@ -4,9 +4,10 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="47b95a2b-cf95-4851-a161-581cd8799dda" name="默认的" comment="重改！-6（差流水弹出框弹出，但是现实不完全）预言除了弹窗，简直完美&#10;">
+    <list default="true" id="47b95a2b-cf95-4851-a161-581cd8799dda" name="默认的" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/11.md" afterPath="$PROJECT_DIR$/11.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EncodingRuleForm.js" afterPath="$PROJECT_DIR$/EncodingRuleForm.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/11.md" afterPath="$PROJECT_DIR$/本项目遇到问题总结.md" />
     </list>
     <ignored path="easy-ui(DEMO).iws" />
     <ignored path=".idea/workspace.xml" />
@@ -47,15 +48,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="11.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/11.md">
+      <file leaf-file-name="本项目遇到问题总结.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/本项目遇到问题总结.md">
+          <provider selected="true" editor-type-id="MarkdownFxPreviewEditor">
+            <state />
+          </provider>
+          <provider editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+            <state split_layout="FIRST">
+              <first_editor vertical-scroll-proportion="0.58278143">
+                <caret line="77" column="12" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
+                <folding />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SUMMARY.md" pinned="false" current-in-tab="false">
+        <entry file="file://D:/Learning-Markdown/SUMMARY.md">
           <provider editor-type-id="MarkdownFxPreviewEditor">
             <state />
           </provider>
           <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
             <state split_layout="FIRST">
-              <first_editor vertical-scroll-proportion="1.8635762">
-                <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
+              <first_editor vertical-scroll-proportion="0.58410597">
+                <caret line="21" column="24" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="24" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -67,9 +84,22 @@
         <entry file="file://$PROJECT_DIR$/EncodingRuleForm.js">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="103" column="18" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
+              <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="164" selection-end-column="9" />
               <folding>
-                <marker date="1475203284022" expanded="true" signature="1252:1437" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="1252:1437" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="1252:2666" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="1301:1337" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="1463:1653" placeholder="[...]" />
+                <marker date="1475207198644" expanded="true" signature="1683:2666" placeholder="[...]" />
+                <marker date="1475207198644" expanded="true" signature="1684:2666" placeholder="[...]" />
+                <marker date="1475207198644" expanded="true" signature="1806:2333" placeholder="{&quot;field&quot;: 'EAF_TYPE'...}" />
+                <marker date="1475207198644" expanded="true" signature="1927:2091" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="1979:2063" placeholder="{...}" />
+                <marker date="1475207198644" expanded="true" signature="2101:2327" placeholder="{&quot;type&quot;: 'combobox'...}" />
+                <marker date="1475207198644" expanded="true" signature="2146:2321" placeholder="{&quot;valueField&quot;: 'productid'...}" />
+                <marker date="1475207198644" expanded="true" signature="2339:2482" placeholder="{&quot;field&quot;: 'EAF_ORDER'...}" />
+                <marker date="1475207198644" expanded="true" signature="2488:2666" placeholder="{&quot;field&quot;: 'EAF_CONTENT'...}" />
+                <marker date="1475207198644" expanded="true" signature="2627:2666" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -80,16 +110,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="204" column="36" selection-start-line="204" selection-start-column="36" selection-end-line="204" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="编码规则交互json样例.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/编码规则交互json样例.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -141,6 +161,7 @@
         <option value="$PROJECT_DIR$/demo12-完结版.html" />
         <option value="$PROJECT_DIR$/demo10.html" />
         <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/EncodingRuleForm.js" />
         <option value="$PROJECT_DIR$/11.md" />
       </list>
     </option>
@@ -474,7 +495,13 @@
       <option name="project" value="LOCAL" />
       <updated>1474298590887</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="markdown 文件">
+      <created>1475211132159</created>
+      <option name="number" value="00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1475211132159</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TodoView">
@@ -492,8 +519,9 @@
     <layout>
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18839428" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297619" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32828283" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="版本控制" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32738096" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="消息" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5702381" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -503,7 +531,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="消息" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="运行" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4940476" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -570,7 +597,8 @@
     <MESSAGE value="重改！-6（差流水弹出框弹出，但是现实不完全）修改了添加的时候出现选择属性不能够选择项所对应的功能框！&#10;" />
     <MESSAGE value="重改！-6（差流水弹出框弹出，但是现实不完全）修改了demo12&#10;" />
     <MESSAGE value="重改！-6（差流水弹出框弹出，但是现实不完全）预言除了弹窗，简直完美&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="重改！-6（差流水弹出框弹出，但是现实不完全）预言除了弹窗，简直完美&#10;" />
+    <MESSAGE value="markdown 文件" />
+    <option name="LAST_COMMIT_MESSAGE" value="markdown 文件" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -579,14 +607,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/demo12-完结版.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="204" column="36" selection-start-line="204" selection-start-column="36" selection-end-line="204" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/demo10.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -915,16 +935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EncodingRuleForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="18" selection-start-line="103" selection-start-column="18" selection-end-line="103" selection-end-column="18" />
-          <folding>
-            <marker date="1475203284022" expanded="true" signature="1252:1437" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tsconfig.json">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -933,20 +943,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/11.md">
+    <entry file="file://D:/Learning-Markdown/SUMMARY.md">
+      <provider editor-type-id="MarkdownFxPreviewEditor">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="FIRST">
+          <first_editor vertical-scroll-proportion="0.58410597">
+            <caret line="21" column="24" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="24" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EncodingRuleForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="155" column="8" selection-start-line="155" selection-start-column="8" selection-end-line="164" selection-end-column="9" />
+          <folding>
+            <marker date="1475207198644" expanded="true" signature="1252:1437" placeholder="{...}" />
+            <marker date="1475207198644" expanded="true" signature="1252:2666" placeholder="{...}" />
+            <marker date="1475207198644" expanded="true" signature="1301:1337" placeholder="{...}" />
+            <marker date="1475207198644" expanded="true" signature="1463:1653" placeholder="[...]" />
+            <marker date="1475207198644" expanded="true" signature="1683:2666" placeholder="[...]" />
+            <marker date="1475207198644" expanded="true" signature="1684:2666" placeholder="[...]" />
+            <marker date="1475207198644" expanded="true" signature="1806:2333" placeholder="{&quot;field&quot;: 'EAF_TYPE'...}" />
+            <marker date="1475207198644" expanded="true" signature="1927:2091" placeholder="{...}" />
+            <marker date="1475207198644" expanded="true" signature="1979:2063" placeholder="{...}" />
+            <marker date="1475207198644" expanded="true" signature="2101:2327" placeholder="{&quot;type&quot;: 'combobox'...}" />
+            <marker date="1475207198644" expanded="true" signature="2146:2321" placeholder="{&quot;valueField&quot;: 'productid'...}" />
+            <marker date="1475207198644" expanded="true" signature="2339:2482" placeholder="{&quot;field&quot;: 'EAF_ORDER'...}" />
+            <marker date="1475207198644" expanded="true" signature="2488:2666" placeholder="{&quot;field&quot;: 'EAF_CONTENT'...}" />
+            <marker date="1475207198644" expanded="true" signature="2627:2666" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/本项目遇到问题总结.md">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="MarkdownFxPreviewEditor">
+      <provider selected="true" editor-type-id="MarkdownFxPreviewEditor">
         <state />
       </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+      <provider editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="FIRST">
-          <first_editor vertical-scroll-proportion="1.8635762">
-            <caret line="70" column="4" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="4" />
+          <first_editor vertical-scroll-proportion="0.58278143">
+            <caret line="77" column="12" selection-start-line="77" selection-start-column="12" selection-end-line="77" selection-end-column="12" />
             <folding />
           </first_editor>
           <second_editor />

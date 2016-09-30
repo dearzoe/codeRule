@@ -68,8 +68,6 @@ var dataGridColumn = [[
     },
     {field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){
         productsAttr=[];
-        //获取属性列表
-        var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiId);
         //获取引用属性的下拉框数据
         getProductsAttr(attrs);
         //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
@@ -155,12 +153,15 @@ var dataGridColumn = [[
         onBeforeLoad: function () {
             $(this).datagrid('rejectChanges');
         },
-        onClickRow: function (rowIndex, row) {
+        onDblClickRow: function (rowIndex, row) {
             if (lastIndex != rowIndex) {
                 $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
                 $('#eaf_rule_grid').datagrid('beginEdit', rowIndex);
             }
             lastIndex = rowIndex;
+        },
+        onClickRow:function(rowIndex, row){
+            $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
         },
         //表格样式
         columns: dataGridColumn,
@@ -381,7 +382,7 @@ function getProductsAttr(attrs) {
     //创建一个临时对象储存每个下拉属性
     var curProductsAttr = {};
     for (var i = 0; i < attrs["rows"].length; i++) {
-        if (attrs["rows"][i].EAF_ISCODE == "Y") {
+        if (attrs["rows"][i].EAF_ISCODE == "Y" && attrs["rows"][i].EAF_ID !== codeRule) {
             curProductsAttr.id = attrs["rows"][i].EAF_ID;
             curProductsAttr.text = attrs["rows"][i].EAF_NAME;
             productsAttr.push(curProductsAttr);
@@ -524,6 +525,7 @@ function getResult() {
     if(flg){
         pData.push(dataDgDataNew);
     }
+    console.log(JSON.stringify(dataDgDataNew))
     dataDgDataNew={};
     return dataId;
 }
