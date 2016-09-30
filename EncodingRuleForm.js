@@ -37,7 +37,6 @@ $(function(){
     }
 //获取总数据列表 为一个对象，
 parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
-    debugger;//1
 //类型的下拉框数据
 var products = [
     {productid: '0', name: eaf.getLabel('eaf_rule_fixString')},
@@ -69,6 +68,8 @@ var dataGridColumn = [[
     },
     {field: 'EAF_CONTENT', title: eaf.getLabel('eaf_rule_datagridContent'), width: 143, align: 'center', formatter: function(value, row, index){
         productsAttr=[];
+        //获取属性列表
+        var attrs = eaf.ajaxGet(eaf.getObjsToFrameUrl('DataModel', 'GetAttrsByClassId') + '&clsid=' + clsId + '&uiid=' + uiId);
         //获取引用属性的下拉框数据
         getProductsAttr(attrs);
         //判断“动态下拉框”为引用属性的时候，把value替换成 productsAttr中对应的值；
@@ -104,6 +105,7 @@ var dataGridColumn = [[
     //创建默认排序
     var orderNumber;
     if(parentData && parentData["SECTIONS"].length !== 0){
+        //获取数据库中编码段的个数
         var length=parentData["SECTIONS"].length;
         orderNumber = parentData["SECTIONS"][length-1]["EAF_ORDER"]+1;
     }else{
@@ -134,12 +136,19 @@ var dataGridColumn = [[
             text: eaf.getLabel('eaf_rule_datagridRemove'),
             iconCls: 'icon-remove',
             handler: function () {
+                upDataCode();
                 //获取所选行的数据
                 var row = $('#eaf_rule_grid').datagrid('getSelected');
                 if (row) {
                     //获取所选行的索引
                     var index = $('#eaf_rule_grid').datagrid('getRowIndex', row);
                     $('#eaf_rule_grid').datagrid('deleteRow', index);
+                    //如果为流水删除对应的流水
+                    for(var i=0;i<dataDgDataNew["SNS"].length;i++){
+                        if(row["EAF_CONTENT"] == dataDgDataNew["SNS"][i]["EAF_ID"]){
+                            dataDgDataNew["SNS"].splice(i,1)
+                        }
+                    }
                 }
             }
         }],
@@ -180,7 +189,6 @@ var dataGridColumn = [[
                 plain: true,
                 iconCls: "icon-ok",
                 handler: function () {
-                    debugger;//1
                     //保存流水数据
                     var snsObj = {};
                     //获取所选行的数据
@@ -192,12 +200,12 @@ var dataGridColumn = [[
                     //获取所选行的ID
                     var selRowId = selRow.EAF_CONTENT;
                     if(flag){
-                        /***************************************/
-                        //获得父级页面数据
+                        //从数据库获取
                         var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
                         if(parentData && parentData["SNS"]){
                             dataDgDataNew["SNS"]=parentData["SNS"]
                         }
+                        //获得父级页面数据
                         if(pData.length !== 0){
                             for(var i=0;i<pData.length;i++){
                                 dataDgDataNew["SNS"]=pData[i]["SNS"];
@@ -337,7 +345,7 @@ function openDialogHandeler() {
             }
         }
     }
-//获得父级页面数据
+    //获得父级页面数据
     var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
     for(var j=0;j<pData.length;j++){
         var curPData=pData[j]["SECTIONS"];
@@ -353,7 +361,6 @@ function openDialogHandeler() {
             }
         }
     }
-
     //获取当前页面缓存
     if(dataDgDataNew["SNS"]){
         for(var e=0;e<dataDgDataNew["SNS"].length;e++){
@@ -374,8 +381,7 @@ function getProductsAttr(attrs) {
     //创建一个临时对象储存每个下拉属性
     var curProductsAttr = {};
     for (var i = 0; i < attrs["rows"].length; i++) {
-        //暂时写N 是因为想页面展示一下，以后改成“Y”
-        if (attrs["rows"][i].EAF_ISCODE == "N") {
+        if (attrs["rows"][i].EAF_ISCODE == "Y") {
             curProductsAttr.id = attrs["rows"][i].EAF_ID;
             curProductsAttr.text = attrs["rows"][i].EAF_NAME;
             productsAttr.push(curProductsAttr);
@@ -472,9 +478,22 @@ function upDataCode(){
         dataDgDataNew["SECTIONS"][i]["EAF_MID"] = interimId;
         dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
     };
-    for(var j=0;j<dataDgDataNew["SNS"].length;j++){
-        if(!dataDgDataNew["SNS"][j]["EAF_LAST"]){
-            dataDgDataNew["SNS"][j]["EAF_LAST"]="";
+    if(dataDgDataNew["SNS"].length == 0){
+        //从数据库获取
+        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+        if(parentData && parentData["SNS"]){
+            dataDgDataNew["SNS"]=parentData["SNS"]
+        }
+        //获得父级页面数据
+        if(pData.length !== 0){
+            for(var j=0;j<pData.length;j++){
+                dataDgDataNew["SNS"]=pData[j]["SNS"];
+            }
+        }
+    }
+    for(var k=0;k<dataDgDataNew["SNS"].length;k++){
+        if(!dataDgDataNew["SNS"][k]["EAF_LAST"]){
+            dataDgDataNew["SNS"][k]["EAF_LAST"]="";
         }
     }
     return dataDgDataNew;
@@ -488,22 +507,23 @@ function codeSample(){
 }
 //点击确定保存数据
 function getResult() {
-    debugger;//1
+    //创建选择权限
     var flg=true;
     //获取最新的编码字符串
     upDataCode();
     //获得父级页面数据
     var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+    //如果父页面又的话就是替换
     for(var i in pData){
         if(pData[i]["MAIN"]["EAF_ID"] == dataDgDataNew["MAIN"]["EAF_ID"]){
             pData[i]=dataDgDataNew;
             flg=false;
         }
     }
+    //如果父页面没有dataDgDataNew就添加
     if(flg){
         pData.push(dataDgDataNew);
     }
-    console.log(JSON.stringify(dataDgDataNew))
     dataDgDataNew={};
     return dataId;
 }

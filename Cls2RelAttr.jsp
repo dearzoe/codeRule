@@ -19,7 +19,9 @@
         clsid = eaf.getUrlParam('clsid');
         uiid = eaf.getUrlParam('uiid');
         fromclassid=eaf.getUrlParam('fromclsid');
+        //编辑前的编码规则ID
         var beforeEditCode;
+        //编辑后的编码规则ID
         var endEditCode;
         //加载数据选项
         var opt = {};
@@ -49,7 +51,6 @@
             opt.queryParams = { clsid: frompclsid };
         }
         var datagrid = objectlist.datagrid(opt);
-        debugger;//1
         objectlist.datagrid({
         	onLoadSuccess:function(data){
         		dataCache=$.extend(true, [], data.rows);
@@ -60,7 +61,7 @@
             onAfterEdit:function(index, row, changes){
                  endEditCode = row["EAF_ENCODERULE"];
                  if(beforeEditCode && beforeEditCode !== endEditCode){
-                  parent.codeDelete=beforeEditCode;
+                  parent.codeDeleteArray.push(beforeEditCode);
                }
             }
         });
