@@ -27,6 +27,12 @@
     // div form表单
     var divform = $('#uie_div_form');
     var eafform;
+    // arg预留参数
+    var arg = eaf.getUrlParam('arg');
+    // 添加编码规则对象列表
+    var codeUpdataObject=[];
+    // 删除编码规则
+    var codeDeleteArray=[];
     $(function () {
         //创建参数对象
         var param = {};
@@ -43,8 +49,20 @@
                 param.tools[i].EAF_EVENT = "uie_frm_clsoper()";
         }
         //获取单个对象（包括默认值）
-        var fromobj = ctl.getObjDefaultById(objid, clsid, param.attrs);
-        //添加情况下，父类ID
+        //var fromobj = ctl.getObjDefaultById(objid, clsid, param.attrs);
+		var fromobj;
+		if (objid) {
+			url = eaf.getObjByIdToFrameUrl('ObjectService', 'GetObjectById', objid) + '&clsid=' + clsid + '&isReturnResource=1&arg=' + arg;
+			fromobj = eaf.ajaxGet(url);
+			if (fromobj.EAF_ERROR) {
+				return;
+			}
+			//填写默认值
+			if (!fromobj || !fromobj.EAF_ID) {
+				fromobj = ctl.getColsDefault(param.attrs);
+			}
+		}
+		//添加情况下，父类ID
         var frompclsid = "";
         //如果类型为空，表示是类，要隐藏的关联相关列
         if (!fromobj.EAF_TYPE) {
@@ -79,10 +97,17 @@
         var relurl = 'Cls2RelAttr.jsp?uiid=8E484453AC6F6ABE08678490ACEA397E&clsid=DD9D7BCD45E2B002B64D372A04F31798&fromclsid=' + objid + '&frompclsid=' + frompclsid;
         window.frames["uie_ifm_rel"].location.href = relurl;
         //父类有版本，子类和父类一致   
-        var pFromObj = eaf.getObjById(fromobj.EAF_PID, clsid); //获取父对象
-        if (pFromObj.EAF_VERSIONTYPE != '0') {
-            $("#EAF_VERSIONTYPE").combobox('setValue', pFromObj.EAF_VERSIONTYPE);
-            $("#EAF_VERSIONTYPE").combobox('disable');
+        //var pFromObj = eaf.getObjById(fromobj.EAF_PID, clsid); //获取父对象
+		var pFromObj;
+		if (objid) {
+			url = eaf.getObjByIdToFrameUrl('ObjectService', 'GetObjectById', fromobj.EAF_PID) + '&clsid=' + clsid + '&isReturnResource=1&arg={"operationId":"viewall0000000000000000000000001"}';
+            pFromObj = eaf.ajaxGet(url);
+        }
+        if(pFromObj.EAF_VERSIONTYPE){
+	        if (pFromObj.EAF_VERSIONTYPE != '0') {
+	            $("#EAF_VERSIONTYPE").combobox('setValue', pFromObj.EAF_VERSIONTYPE);
+	            $("#EAF_VERSIONTYPE").combobox('disable');
+	        }      	
         }
         //父类是否多语言，子类和父类一直
         if (pFromObj.EAF_MUL== '1') {
@@ -117,6 +142,21 @@
        insertObjects=[];
        updateObjects=[];
        deleteObjects=[];
+        //ajax保存编码规则数据
+        for(var i=0;i<codeUpdataObject.length;i++){
+            $.ajax({
+                type: "POST",
+                url: eaf.saveObjByIdToFrameUrl('DataModel', 'UpdateEncodingRule'),
+                async: false,
+                dataType: "json",
+                data:{encodingRule:eaf.jsonToStr(codeUpdataObject[i])}
+            });
+        }
+        //删除编码规则数据
+        for(var j=0;j<codeDeleteArray.length;j++){
+            eaf.readData('DataModel', 'DeleteEncodingRule',{id:codeDeleteArray[j]}).result;
+        }
+
 		top.overrideAttrs=window.frames["uie_ifm_rel"].getSaveJson(); 
 		// 是否存在被覆盖的属性
     	var isExistAttrOverride=eaf.readData('DataModel', 'IsExistAttrOverride',{'clsId':objid});
@@ -182,7 +222,7 @@
     //打开“界面”
     function uie_frm_clsui()
     {
-        window.open(eaf.getEafAppPath() + '/main/DataModel/ClsUI.jsp?clsid=01CA6C0A56BD451DA50806E617C5E347&uiid=B77C8CD23AE4EF5DBBD243579F82C9A9&id=' + objid);
+        window.open(eaf.getEafAppPath() + '/main/DataModel/ClsUI.jsp?clsid=01CA6C0A56BD451DA50806E617C5E347&uiid=B77C8CD23AE4EF5DBBD243579F82C9A9&id=' + objid + '&arg=' + arg);
     }
     //打开“操作”
     function uie_frm_clsoper() {
