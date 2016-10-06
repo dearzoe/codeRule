@@ -22,5 +22,3 @@
 
 # 3
 - 输入框为number时候的精确值，在行内的话可以在data-options中的editor里的options里的precision：1 。如：editor:{type:'numberbox',options:{precision:1}}
-# 4
--
