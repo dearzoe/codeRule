@@ -31,9 +31,9 @@
     </div>
     <div id="rule_water_grid" closed="true">
         <form style="margin: 15px 0px 0px 30px">
-            <div style="margin-top:7px">&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_star")%>:<input id="water_grid_init" type="text" style="text-align:center"></div>
-            <div style="margin-top:7px">&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_length")%>:<input id="water_grid_length" type="text"  style="text-align:center"></div>
-            <div style="margin-top:7px">&nbsp;&nbsp;<%= I18nHelper.GetLabel(request,"eaf_rule_step")%>:<input id="water_grid_step" type="text"  style="text-align:center"></div>
+            <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_star")%>:&nbsp;<input id="water_grid_init" type="text" style="text-align:center"></div>
+            <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_length")%>:&nbsp;&nbsp;<input id="water_grid_length" type="text"  style="text-align:center"></div>
+            <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_step")%>:&nbsp;&nbsp;<input id="water_grid_step" type="text"  style="text-align:center"></div>
             <div style="margin-top:7px"><%= I18nHelper.GetLabel(request,"eaf_rule_end")%>:<input id="water_grid_last" type="text"  readonly="readonly" style="text-align:center;border:none"></div>
         </form>
     </div>

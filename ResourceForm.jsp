@@ -172,6 +172,7 @@
             //删除
             eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).deleteObjects.push(resId);
         }
+    parent.a=1111;
         return resId;
     };
 </script>

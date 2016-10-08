@@ -23,6 +23,8 @@
         var beforeEditCode;
         //编辑后的编码规则ID
         var endEditCode;
+        //编码规则名称
+        var encodingRuleName="";
         //加载数据选项
         var opt = {};
         //获取属性列表
@@ -58,7 +60,13 @@
             onBeforeEdit:function(index,row){
                  beforeEditCode = row["EAF_ENCODERULE"];
             },
-            onAfterEdit:function(index, row, changes){
+            onEndEdit:function(index, row, changes){
+                for(var i=0;i<parent.codeUpdataObject.length;i++){
+                    if(parent.codeUpdataObject[i]["MAIN"]["EAF_ID"] == row["EAF_ENCODERULE"]){
+                             encodingRuleName = parent.codeUpdataObject[i]["MAIN"]["EAF_NAME"]
+                    }
+                }
+                 row["RES_EAF_ENCODERULE_EAF_NAME"]=encodingRuleName;
                  endEditCode = row["EAF_ENCODERULE"];
                  if(beforeEditCode && beforeEditCode !== endEditCode){
                   parent.codeDeleteArray.push(beforeEditCode);

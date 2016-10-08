@@ -35,8 +35,23 @@ $(function(){
     if(!dataId){
         dataId = eaf.guid();
     }
-//获取总数据列表 为一个对象，
-parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
+
+//获取父级页面数据
+var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject;
+if(pData.length !== 0){
+    for(var j=0;j<pData.length;j++){
+        //父级页面的每组数据
+        var curPData=pData[j];
+        if(curPData["MAIN"]["EAF_ID"] == dataId){
+            parentData = curPData;
+        }
+    }
+}
+//获取数据库中的数据
+if(!parentData){
+    //获取总数据列表 为一个对象，
+    parentData = eaf.readData('DataModel', 'GetEncodingRule',{ruleId:dataId}).result;
+}
 //类型的下拉框数据
 var products = [
     {productid: '0', name: eaf.getLabel('eaf_rule_fixString')},
@@ -154,10 +169,8 @@ var dataGridColumn = [[
             $(this).datagrid('rejectChanges');
         },
         onDblClickRow: function (rowIndex, row) {
-            if (lastIndex != rowIndex) {
                 $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
                 $('#eaf_rule_grid').datagrid('beginEdit', rowIndex);
-            }
             lastIndex = rowIndex;
         },
         onClickRow:function(rowIndex, row){
@@ -201,16 +214,8 @@ var dataGridColumn = [[
                     //获取所选行的ID
                     var selRowId = selRow.EAF_CONTENT;
                     if(flag){
-                        //从数据库获取
-                        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
                         if(parentData && parentData["SNS"]){
                             dataDgDataNew["SNS"]=parentData["SNS"]
-                        }
-                        //获得父级页面数据
-                        if(pData.length !== 0){
-                            for(var i=0;i<pData.length;i++){
-                                dataDgDataNew["SNS"]=pData[i]["SNS"];
-                            }
                         }
                         //无值的话赋值一个新值
                         if(!selRow.EAF_CONTENT) {
@@ -222,7 +227,17 @@ var dataGridColumn = [[
                         snsObj.EAF_INIT = $("#water_grid_init").val();
                         snsObj.EAF_LENGTH = $("#water_grid_length").val();
                         snsObj.EAF_STEP = $("#water_grid_step").val();
-                        snsObj.EAF_LAST = $("#water_grid_last").val();
+                        //snsObj.EAF_LAST = $("#water_grid_last").val();
+                        if(selRow.EAF_CONTENT){
+                            for(var j=0;j<dataDgDataNew["SNS"].length;j++){
+                                if(dataDgDataNew["SNS"][j].EAF_ID==snsObj.EAF_ID){
+                                    dataDgDataNew["SNS"][j]=snsObj;
+                                    snsObj = {};
+                                    flag = false;
+                                    return;
+                                }
+                            }
+                        }
                         dataDgDataNew["SNS"].push(snsObj);
                         snsObj = {};
                         flag = false;
@@ -242,7 +257,7 @@ var dataGridColumn = [[
             }]
     });
     $("#btn").linkbutton({
-          text:eaf.getLabel('eaf_rule_production'),
+          text:eaf.getLabel('eaf_rule_production')
     });
 });
 /**
@@ -253,37 +268,7 @@ var dataGridColumn = [[
 function getDgData(parentData) {
     //创建一个新的临时对象
     var obj = {};
-    //获取父级页面数据
-    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject;
-    if(pData.length !== 0){
-        for(var j=0;j<pData.length;j++){
-            //父级页面的每组数据
-            var curPData=pData[j];
-            if(curPData["MAIN"]["EAF_ID"] == dataId){
-                if(curPData["MAIN"]["EAF_ISMAIN"] == 1){
-                    $("#eaf_mainCode_form").prop("checked",true);
-                }
-                if(curPData["MAIN"]["EAF_WHENPUBLISH"] == 1){
-                    $("#eaf_bornPublish_form").prop("checked",true);
-                }
-                if(curPData["MAIN"]["EAF_WAY"]){
-                    $("#eaf_bornStyle_form").combobox("setValue",curPData["MAIN"]["EAF_WAY"]);
-                }
-                if(curPData["MAIN"]["EAF_NAME"]){
-                    $("#eaf_ruleName_form").val(curPData["MAIN"]["EAF_NAME"]);
-                }
-                for (var k = 0; k < curPData["SECTIONS"].length; k++) {
-                    for (var key in curPData["SECTIONS"][k]) {
-                        obj[key] = curPData["SECTIONS"][k][key];
-                    }
-                    dataDgData.push(obj);
-                    obj = {};
-                }
-            }
-        }
-        return dataDgData;
-    }
-    //从数据库中获取
+    //从数据库或者父级页面中获取
     if(parentData) {
         if(parentData["MAIN"]["EAF_ISMAIN"] == 1){
             $("#eaf_mainCode_form").prop("checked",true);
@@ -333,6 +318,7 @@ function openDialogHandeler() {
     var selRow = $('#eaf_rule_grid').datagrid('getSelected');
     //获取所选行的ID
     var selRowId = selRow.EAF_CONTENT;
+    //从数据库或者父级页面中获取
     if(parentData){
         for (var i = 0; i < parentData["SNS"].length; i++) {
             //获取流水列表的ID
@@ -343,22 +329,6 @@ function openDialogHandeler() {
                 $("#water_grid_length").val(parentData["SNS"][i]["EAF_LENGTH"]);
                 $("#water_grid_step").val(parentData["SNS"][i]["EAF_STEP"]);
                 $("#water_grid_last").val(parentData["SNS"][i]["EAF_LAST"]);
-            }
-        }
-    }
-    //获得父级页面数据
-    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
-    for(var j=0;j<pData.length;j++){
-        var curPData=pData[j]["SECTIONS"];
-        for(var k=0;k<curPData.length;k++){
-            if(curPData[k]["EAF_CONTENT"] == selRowId){
-                for(var g=0;g<pData[j]["SNS"].length;g++){
-                    if(pData[j]["SNS"][g]["EAF_ID"] == selRowId){
-                        $("#water_grid_init").val(pData[j]["SNS"][g]["EAF_INIT"]);
-                        $("#water_grid_length").val(pData[j]["SNS"][g]["EAF_LENGTH"]);
-                        $("#water_grid_step").val(pData[j]["SNS"][g]["EAF_STEP"]);
-                    }
-                }
             }
         }
     }
@@ -398,7 +368,6 @@ function closeDialogHandeler() {
             $("#water_grid_init").val("");
             $("#water_grid_length").val("");
             $("#water_grid_step").val("");
-            $("#water_grid_last").val("");
         }
     });
 }
@@ -480,21 +449,10 @@ function upDataCode(){
         dataDgDataNew["SECTIONS"][i]["EAF_ID"]=eaf.guid();
     };
     if(dataDgDataNew["SNS"].length == 0){
-        //从数据库获取
-        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+        //从数据库或者父级页面中获取
+        var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject;
         if(parentData && parentData["SNS"]){
             dataDgDataNew["SNS"]=parentData["SNS"]
-        }
-        //获得父级页面数据
-        if(pData.length !== 0){
-            for(var j=0;j<pData.length;j++){
-                dataDgDataNew["SNS"]=pData[j]["SNS"];
-            }
-        }
-    }
-    for(var k=0;k<dataDgDataNew["SNS"].length;k++){
-        if(!dataDgDataNew["SNS"][k]["EAF_LAST"]){
-            dataDgDataNew["SNS"][k]["EAF_LAST"]="";
         }
     }
     return dataDgDataNew;
@@ -513,7 +471,7 @@ function getResult() {
     //获取最新的编码字符串
     upDataCode();
     //获得父级页面数据
-    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject
+    var pData=eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).codeUpdataObject;
     //如果父页面又的话就是替换
     for(var i in pData){
         if(pData[i]["MAIN"]["EAF_ID"] == dataDgDataNew["MAIN"]["EAF_ID"]){
@@ -525,7 +483,6 @@ function getResult() {
     if(flg){
         pData.push(dataDgDataNew);
     }
-    console.log(JSON.stringify(dataDgDataNew))
     dataDgDataNew={};
     return dataId;
 }
