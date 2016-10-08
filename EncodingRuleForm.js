@@ -169,6 +169,7 @@ var dataGridColumn = [[
             $(this).datagrid('rejectChanges');
         },
         onDblClickRow: function (rowIndex, row) {
+                flag=true;
                 $('#eaf_rule_grid').datagrid('endEdit', lastIndex);
                 $('#eaf_rule_grid').datagrid('beginEdit', rowIndex);
             lastIndex = rowIndex;
@@ -234,6 +235,7 @@ var dataGridColumn = [[
                                     dataDgDataNew["SNS"][j]=snsObj;
                                     snsObj = {};
                                     flag = false;
+                                    $("#rule_water_grid").dialog('close');
                                     return;
                                 }
                             }
@@ -483,6 +485,8 @@ function getResult() {
     if(flg){
         pData.push(dataDgDataNew);
     }
+    eaf.getIframWin(top.window.frames["ifmbimcenter"].document.getElementById(""+clsId)).encodingName[dataDgDataNew["MAIN"]["EAF_ID"]]=dataDgDataNew["MAIN"]["EAF_NAME"]
     dataDgDataNew={};
     return dataId;
 }
+

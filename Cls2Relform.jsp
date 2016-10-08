@@ -33,6 +33,8 @@
     var codeUpdataObject=[];
     // 删除编码规则
     var codeDeleteArray=[];
+    //编码规则缓存你名称
+    var encodingName={};
     $(function () {
         //创建参数对象
         var param = {};
@@ -138,7 +140,9 @@
     }
     //保存表单数据
     function uie_frm_save() {
-       eaf.saveObjects(resclsid , insertObjects ,  updateObjects , eaf.jsonToStr(deleteObjects));
+    	if(insertObjects.length!=0&&updateObjects.length!=0&&deleteObjects.length!=0){   		
+       		eaf.saveObjects(resclsid , insertObjects ,  updateObjects , eaf.jsonToStr(deleteObjects));
+    	}
        insertObjects=[];
        updateObjects=[];
        deleteObjects=[];

@@ -61,12 +61,14 @@
                  beforeEditCode = row["EAF_ENCODERULE"];
             },
             onEndEdit:function(index, row, changes){
-                for(var i=0;i<parent.codeUpdataObject.length;i++){
-                    if(parent.codeUpdataObject[i]["MAIN"]["EAF_ID"] == row["EAF_ENCODERULE"]){
-                             encodingRuleName = parent.codeUpdataObject[i]["MAIN"]["EAF_NAME"]
+                for(var key in parent.encodingName){
+                    if(key == row["EAF_ENCODERULE"]){
+                             encodingRuleName = parent.encodingName[key];
+                             row["RES_EAF_ENCODERULE_EAF_NAME"]=encodingRuleName;
+                             return;
                     }
                 }
-                 row["RES_EAF_ENCODERULE_EAF_NAME"]=encodingRuleName;
+                 parent.encodingName={};
                  endEditCode = row["EAF_ENCODERULE"];
                  if(beforeEditCode && beforeEditCode !== endEditCode){
                   parent.codeDeleteArray.push(beforeEditCode);
